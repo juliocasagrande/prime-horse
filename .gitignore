@@ -10,3 +10,4 @@ build/
 .idea/
 web/dev-dist/
 server/dist/
+supabase/.temp/

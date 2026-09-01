@@ -1,0 +1,1323 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@500;600;700&family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body{margin:0;-webkit-font-smoothing:antialiased;}
+  *{box-sizing:border-box;}
+  input,select,textarea{font-family:'Poppins',sans-serif;}
+  ::placeholder{color:oklch(68% 0.01 60);}
+  a{color:oklch(40% 0.09 43);}
+  a:hover{color:oklch(34% 0.09 43);}
+  @keyframes phFadeIn{from{opacity:0}to{opacity:1}}
+  @keyframes phSlideUp{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:translateY(0)}}
+  .ph-backdrop{animation:phFadeIn .15s ease-out;}
+  .ph-card-anim{animation:phSlideUp .18s ease-out;}
+  .ph-sidebar{display:flex;}
+  .ph-bottomnav{display:none;}
+  .ph-login-side{display:flex;}
+  .ph-stats-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;}
+  .ph-charts-grid{display:grid;grid-template-columns:1.7fr 1fr;gap:16px;}
+  .ph-two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+  .ph-settings-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:20px;}
+  .ph-topbar-name{display:block;}
+  @media (max-width:900px){
+    .ph-sidebar{display:none;}
+    .ph-bottomnav{display:flex;}
+    .ph-login-side{display:none;}
+    .ph-stats-grid{grid-template-columns:repeat(2,1fr);}
+    .ph-charts-grid{grid-template-columns:1fr;}
+    .ph-two-col{grid-template-columns:1fr;}
+    .ph-settings-grid{grid-template-columns:1fr;}
+    .ph-main-pad{padding:16px !important;padding-bottom:96px !important;}
+    .ph-topbar-name{display:none;}
+  }
+</style>
+</helmet>
+
+<div style="font-family:'Poppins',sans-serif;background:oklch(97% 0.008 75);min-height:100vh;color:oklch(27% 0.02 50);position:relative;">
+
+<sc-if value="{{ isLogin }}" hint-placeholder-val="{{ true }}">
+<div style="min-height:100vh;display:flex;">
+  <div class="ph-login-side" style="flex:1;flex-direction:column;justify-content:space-between;background:linear-gradient(160deg, oklch(24% 0.045 43) 0%, oklch(17% 0.035 42) 55%, oklch(11% 0.02 40) 100%);padding:48px;position:relative;overflow:hidden;">
+    <div style="position:absolute;top:-80px;right:-80px;width:320px;height:320px;border-radius:50%;background:radial-gradient(circle, oklch(45% 0.11 45 / 0.35), transparent 70%);"></div>
+    <div style="display:flex;align-items:center;gap:11px;position:relative;z-index:1;">
+      <div style="width:38px;height:38px;border-radius:10px;background:linear-gradient(135deg, oklch(55% 0.12 45), oklch(40% 0.1 40));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 6px 16px -4px oklch(40% 0.09 43 / 0.5);">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l3-8 3-6c1 0 2 1 2 2l1 3 4 1 3 3-2 1-2-1-2 3 1 5"/><line x1="6" y1="19" x2="10" y2="19"/></svg>
+      </div>
+      <div>
+        <div style="font-family:'Lora',serif;font-weight:700;font-size:19px;color:white;line-height:1.1;white-space:nowrap;">Prime Horse</div>
+        <div style="font-size:11.5px;color:oklch(65% 0.025 55);white-space:nowrap;">Gestão Empresarial</div>
+      </div>
+    </div>
+    <div style="position:relative;z-index:1;">
+      <div style="font-family:'Lora',serif;font-size:32px;font-weight:600;color:white;line-height:1.25;max-width:420px;">Controle total do seu estoque, em um só painel.</div>
+      <div style="display:flex;flex-direction:column;gap:14px;margin-top:28px;">
+        <div style="display:flex;align-items:center;gap:11px;color:oklch(85% 0.02 55);font-size:13.5px;">
+          <div style="width:26px;height:26px;border-radius:7px;background:oklch(30% 0.06 43 / 0.6);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="oklch(72% 0.08 55)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,13 9,18 20,6"/></svg></div>
+          Alertas automáticos de estoque baixo
+        </div>
+        <div style="display:flex;align-items:center;gap:11px;color:oklch(85% 0.02 55);font-size:13.5px;">
+          <div style="width:26px;height:26px;border-radius:7px;background:oklch(30% 0.06 43 / 0.6);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="oklch(72% 0.08 55)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,13 9,18 20,6"/></svg></div>
+          Histórico completo de entradas e saídas
+        </div>
+        <div style="display:flex;align-items:center;gap:11px;color:oklch(85% 0.02 55);font-size:13.5px;">
+          <div style="width:26px;height:26px;border-radius:7px;background:oklch(30% 0.06 43 / 0.6);display:flex;align-items:center;justify-content:center;flex-shrink:0;"><svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="oklch(72% 0.08 55)" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,13 9,18 20,6"/></svg></div>
+          Permissões por perfil de usuário
+        </div>
+      </div>
+    </div>
+    <div style="font-size:11.5px;color:oklch(52% 0.02 55);position:relative;z-index:1;">© 2026 Prime Horse</div>
+  </div>
+  <div style="flex:1;display:flex;align-items:center;justify-content:center;padding:24px;background:oklch(97% 0.008 75);">
+    <div style="width:100%;max-width:400px;">
+      <div style="font-family:'Lora',serif;font-size:22px;font-weight:600;margin:0 0 4px;">Entrar</div>
+      <div style="font-size:13px;color:oklch(52% 0.02 55);margin-bottom:24px;">Acesse com seu e-mail e senha corporativos.</div>
+      <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">E-mail</label>
+      <input type="text" placeholder="nome@primehorse.com" style="width:100%;padding:11px 13px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:14px;margin-bottom:14px;outline:none;background:oklch(98% 0.006 75);"/>
+      <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Senha</label>
+      <input type="password" placeholder="••••••••" style="width:100%;padding:11px 13px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:14px;margin-bottom:8px;outline:none;background:oklch(98% 0.006 75);"/>
+      <div style="text-align:right;margin-bottom:20px;"><a href="#" style="font-size:12.5px;text-decoration:none;">Esqueci minha senha</a></div>
+      <button style="width:100%;padding:12px;border:none;border-radius:8px;background:oklch(88% 0.012 70);color:oklch(55% 0.02 55);font-weight:600;font-size:14px;cursor:not-allowed;margin-bottom:22px;">Entrar</button>
+      <div style="display:flex;align-items:center;gap:10px;margin-bottom:16px;">
+        <div style="flex:1;height:1px;background:oklch(90% 0.012 70);"></div>
+        <div style="font-size:11px;color:oklch(62% 0.015 55);letter-spacing:0.04em;">DEMONSTRAÇÃO</div>
+        <div style="flex:1;height:1px;background:oklch(90% 0.012 70);"></div>
+      </div>
+      <button onClick="{{ loginAsAdmin }}" style="width:100%;padding:11px;border:none;border-radius:8px;background:oklch(40% 0.09 43);color:white;font-weight:600;font-size:13.5px;cursor:pointer;margin-bottom:10px;box-shadow:0 8px 20px -6px oklch(40% 0.09 43 / 0.45);transition:transform .12s ease, box-shadow .12s ease;" style-hover="transform:translateY(-1px);box-shadow:0 10px 24px -6px oklch(40% 0.09 43 / 0.55);">Entrar como Administrador</button>
+      <button onClick="{{ loginAsNewUser }}" style="width:100%;padding:11px;border:1px solid oklch(88% 0.012 70);border-radius:8px;background:oklch(100% 0 0);color:oklch(40% 0.02 55);font-weight:600;font-size:13.5px;cursor:pointer;transition:border-color .12s ease;" style-hover="border-color:oklch(40% 0.09 43);">Entrar como novo usuário (primeiro acesso)</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ !isLogin }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;min-height:100vh;">
+
+  <div class="ph-sidebar" style="width:244px;flex-direction:column;background:linear-gradient(160deg, oklch(24% 0.045 43) 0%, oklch(17% 0.035 42) 55%, oklch(11% 0.02 40) 100%);padding:22px 16px;flex-shrink:0;">
+    <div style="display:flex;align-items:center;gap:10px;padding:0 8px 20px;border-bottom:1px solid oklch(32% 0.045 43 / 0.5);margin-bottom:18px;">
+      <div style="width:32px;height:32px;border-radius:9px;background:linear-gradient(135deg, oklch(55% 0.12 45), oklch(40% 0.1 40));display:flex;align-items:center;justify-content:center;flex-shrink:0;box-shadow:0 4px 12px -3px oklch(40% 0.09 43 / 0.5);">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M4 19l3-8 3-6c1 0 2 1 2 2l1 3 4 1 3 3-2 1-2-1-2 3 1 5"/><line x1="6" y1="19" x2="10" y2="19"/></svg>
+      </div>
+      <div>
+        <div style="font-family:'Lora',serif;font-weight:700;font-size:15.5px;color:white;line-height:1.1;">Prime Horse</div>
+        <div style="font-size:10px;color:oklch(60% 0.025 55);">Gestão Empresarial</div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:3px;">
+      <sc-for list="{{ navItems }}" as="nav" hint-placeholder-count="6">
+        <sc-if value="{{ nav.visible }}" hint-placeholder-val="{{ true }}">
+        <div onClick="{{ nav.onClick }}" style="{{ nav.rowStyle }}" style-hover="{{ nav.rowHoverStyle }}">
+          <sc-if value="{{ nav.isDashboard }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></sc-if>
+          <sc-if value="{{ nav.isItems }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="1.3"/><polyline points="3,8 12,3 21,8"/></svg></sc-if>
+          <sc-if value="{{ nav.isMovements }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="4" y1="8" x2="16" y2="8"/><polyline points="12,4 16,8 12,12"/><line x1="20" y1="16" x2="8" y2="16"/><polyline points="12,20 8,16 12,12"/></svg></sc-if>
+          <sc-if value="{{ nav.isNotifications }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0112 0v4l1.5 3h-15L6 14z"/><path d="M10 20a2 2 0 004 0"/></svg></sc-if>
+          <sc-if value="{{ nav.isUsers }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-3 2.3-5 5-5s5 2 5 5"/><circle cx="17" cy="9" r="2.2"/><path d="M15.2 19c0-2.4 1-4.1 2.8-4.6"/></svg></sc-if>
+          <sc-if value="{{ nav.isSettings }}"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><line x1="12" y1="2.5" x2="12" y2="5.5"/><line x1="12" y1="18.5" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="5.5" y2="12"/><line x1="18.5" y1="12" x2="21.5" y2="12"/><line x1="5" y1="5" x2="7.1" y2="7.1"/><line x1="16.9" y1="16.9" x2="19" y2="19"/><line x1="5" y1="19" x2="7.1" y2="16.9"/><line x1="16.9" y1="7.1" x2="19" y2="5"/></svg></sc-if>
+          <span style="font-size:13.5px;font-weight:{{ nav.fontWeight }};">{{ nav.label }}</span>
+        </div>
+        </sc-if>
+      </sc-for>
+    </div>
+    <div style="flex:1;"></div>
+    <div onClick="{{ logout }}" style="display:flex;align-items:center;gap:9px;padding:10px 12px;border-radius:8px;cursor:pointer;color:oklch(65% 0.025 55);font-size:13px;font-weight:500;transition:background .12s ease,color .12s ease;" style-hover="background:oklch(28% 0.04 45 / 0.5);color:oklch(90% 0.02 55);">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 4H5a1 1 0 00-1 1v14a1 1 0 001 1h4"/><line x1="15" y1="12" x2="21" y2="12"/><polyline points="18,9 21,12 18,15"/></svg>
+      Sair
+    </div>
+  </div>
+
+  <div style="flex:1;display:flex;flex-direction:column;min-width:0;">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 28px;background:oklch(100% 0 0);border-bottom:1px solid oklch(90% 0.012 70);gap:16px;flex-wrap:wrap;position:sticky;top:0;z-index:30;">
+      <div style="display:flex;align-items:center;gap:8px;padding:5px 12px;border-radius:100px;background:oklch(94% 0.045 148);">
+        <div style="width:7px;height:7px;border-radius:50%;background:oklch(55% 0.13 148);"></div>
+        <span style="font-size:12.5px;font-weight:600;color:oklch(38% 0.1 148);">Online</span>
+      </div>
+      <div style="display:flex;align-items:center;gap:14px;">
+        <sc-if value="{{ showRoleSwitcher }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;gap:2px;position:relative;">
+          <span style="font-size:10px;color:oklch(62% 0.015 55);">Visualizar como</span>
+          <div onClick="{{ roleSwitchDD.toggle }}" style="font-size:12.5px;padding:6px 10px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(98% 0.006 75);color:oklch(35% 0.02 50);font-weight:500;cursor:pointer;display:flex;align-items:center;gap:16px;justify-content:space-between;min-width:160px;">
+            <span>{{ roleSwitchDD.selectedLabel }}</span>
+            <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#5c4f42" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <sc-if value="{{ roleSwitchDD.isOpen }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeAllDropdowns }}" style="position:fixed;inset:0;z-index:499;"></div>
+            <div style="position:absolute;top:calc(100% + 4px);left:0;right:0;background:oklch(100% 0 0);border:1px solid oklch(88% 0.012 70);border-radius:8px;box-shadow:0 10px 26px -8px oklch(20% 0.02 50 / 0.28);z-index:500;overflow:hidden;">
+              <sc-for list="{{ roleSwitchDD.options }}" as="opt" hint-placeholder-count="3">
+                <div onClick="{{ opt.onClick }}" style="{{ opt.rowStyle }}">{{ opt.label }}</div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+        </sc-if>
+        <div class="ph-topbar-name" style="text-align:right;">
+          <div style="font-size:13.5px;font-weight:600;">{{ user.name }}</div>
+        </div>
+        <span style="font-size:11.5px;font-weight:600;padding:4px 10px;border-radius:100px;background:oklch(94% 0.03 45);color:oklch(34% 0.09 43);">{{ user.roleLabel }}</span>
+        <button onClick="{{ logout }}" style="padding:8px 14px;border:1px solid oklch(88% 0.012 70);border-radius:8px;background:oklch(100% 0 0);font-size:13px;font-weight:600;color:oklch(40% 0.02 55);cursor:pointer;transition:border-color .12s ease;" style-hover="border-color:oklch(70% 0.02 55);">Sair</button>
+      </div>
+    </div>
+
+    <div class="ph-main-pad" style="flex:1;padding:28px 32px 40px;">
+
+      <sc-if value="{{ screen === 'dashboard' }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:22px;">
+          <div>
+            <div style="font-family:'Lora',serif;font-size:28px;font-weight:700;">Painel geral</div>
+            <div style="font-size:13.5px;color:oklch(52% 0.02 55);margin-top:4px;">Visão resumida do estoque da Prime Horse.</div>
+          </div>
+          <button onClick="{{ togglePush }}" style="{{ pushButtonStyle }}">
+            <sc-if value="{{ pushEnabled }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,13 9,18 20,6"/></svg></sc-if>
+            <sc-if value="{{ !pushEnabled }}" hint-placeholder-val="{{ true }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0112 0v4l1.5 3h-15L6 14z"/><path d="M10 20a2 2 0 004 0"/></svg></sc-if>
+            {{ pushButtonLabel }}
+          </button>
+        </div>
+
+        <div class="ph-stats-grid" style="margin-bottom:16px;">
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;padding:18px 20px;box-shadow:0 1px 2px oklch(30% 0.03 60 / 0.04);transition:box-shadow .15s ease,transform .15s ease;" style-hover="box-shadow:0 14px 30px -10px oklch(30% 0.03 60 / 0.16);transform:translateY(-2px);">
+            <div style="width:34px;height:34px;border-radius:9px;background:oklch(94% 0.03 45);display:flex;align-items:center;justify-content:center;margin-bottom:12px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="oklch(40% 0.09 43)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="1.3"/><polyline points="3,8 12,3 21,8"/></svg></div>
+            <div style="font-family:'Lora',serif;font-size:28px;font-weight:700;">{{ stats.itemCount }}</div>
+            <div style="font-size:12.5px;color:oklch(52% 0.02 55);margin-top:2px;">Itens cadastrados</div>
+          </div>
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;padding:18px 20px;box-shadow:0 1px 2px oklch(30% 0.03 60 / 0.04);transition:box-shadow .15s ease,transform .15s ease;" style-hover="box-shadow:0 14px 30px -10px oklch(30% 0.03 60 / 0.16);transform:translateY(-2px);">
+            <div style="width:34px;height:34px;border-radius:9px;background:oklch(94% 0.03 45);display:flex;align-items:center;justify-content:center;margin-bottom:12px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="oklch(40% 0.09 43)" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-3 2.3-5 5-5s5 2 5 5"/><circle cx="17" cy="9" r="2.2"/><path d="M15.2 19c0-2.4 1-4.1 2.8-4.6"/></svg></div>
+            <div style="font-family:'Lora',serif;font-size:28px;font-weight:700;">{{ stats.activeUserCount }}</div>
+            <div style="font-size:12.5px;color:oklch(52% 0.02 55);margin-top:2px;">Usuários ativos</div>
+          </div>
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;padding:18px 20px;box-shadow:0 1px 2px oklch(30% 0.03 60 / 0.04);transition:box-shadow .15s ease,transform .15s ease;" style-hover="box-shadow:0 14px 30px -10px oklch(30% 0.03 60 / 0.16);transform:translateY(-2px);">
+            <div style="width:34px;height:34px;border-radius:9px;background:oklch(94% 0.06 55);display:flex;align-items:center;justify-content:center;margin-bottom:12px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="oklch(48% 0.15 55)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l9 16H3z"/><line x1="12" y1="9" x2="12" y2="14"/><circle cx="12" cy="17" r="0.6" fill="oklch(48% 0.15 55)"/></svg></div>
+            <div style="font-family:'Lora',serif;font-size:28px;font-weight:700;color:oklch(60% 0.16 55);">{{ stats.lowStockCount }}</div>
+            <div style="font-size:12.5px;color:oklch(52% 0.02 55);margin-top:2px;">Itens em atenção (estoque baixo)</div>
+          </div>
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;padding:18px 20px;box-shadow:0 1px 2px oklch(30% 0.03 60 / 0.04);transition:box-shadow .15s ease,transform .15s ease;" style-hover="box-shadow:0 14px 30px -10px oklch(30% 0.03 60 / 0.16);transform:translateY(-2px);">
+            <div style="width:34px;height:34px;border-radius:9px;background:oklch(94% 0.06 25);display:flex;align-items:center;justify-content:center;margin-bottom:12px;"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="oklch(55% 0.19 25)" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="12" x2="20" y2="12"/><polyline points="14,6 20,12 14,18"/></svg></div>
+            <div style="font-family:'Lora',serif;font-size:28px;font-weight:700;color:oklch(55% 0.19 25);">{{ stats.negativeCount }}</div>
+            <div style="font-size:12.5px;color:oklch(52% 0.02 55);margin-top:2px;">Itens com saldo negativo</div>
+          </div>
+        </div>
+
+        <div class="ph-charts-grid" style="margin-bottom:16px;">
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;overflow:hidden;">
+            <div style="display:flex;align-items:center;justify-content:space-between;padding:14px 22px;background:oklch(96% 0.025 45);border-bottom:1px solid oklch(90% 0.012 70);">
+              <div style="font-family:'Lora',serif;font-size:16px;font-weight:600;">Movimentações recentes</div>
+              <div style="display:flex;gap:14px;font-size:11.5px;color:oklch(52% 0.02 55);">
+                <div style="display:flex;align-items:center;gap:6px;"><span style="width:9px;height:9px;border-radius:2px;background:oklch(55% 0.13 148);display:inline-block;"></span>Entrada</div>
+                <div style="display:flex;align-items:center;gap:6px;"><span style="width:9px;height:9px;border-radius:2px;background:oklch(40% 0.09 43);display:inline-block;"></span>Saída</div>
+              </div>
+            </div>
+            <div style="display:flex;align-items:flex-end;gap:14px;height:160px;padding:20px 22px 18px;">
+              <sc-for list="{{ movementChart }}" as="mc" hint-placeholder-count="6">
+                <div style="flex:1;display:flex;flex-direction:column;align-items:center;gap:8px;height:100%;justify-content:flex-end;">
+                  <div style="font-size:11px;font-weight:600;color:oklch(35% 0.02 50);">{{ mc.qty }}</div>
+                  <div style="width:100%;max-width:34px;border-radius:6px 6px 3px 3px;{{ mc.barStyle }}"></div>
+                  <div style="font-size:10.5px;color:oklch(60% 0.015 55);text-align:center;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:56px;">{{ mc.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;overflow:hidden;">
+            <div style="padding:14px 22px;background:oklch(96% 0.025 45);border-bottom:1px solid oklch(90% 0.012 70);font-family:'Lora',serif;font-size:16px;font-weight:600;">Itens por categoria</div>
+            <div style="padding:18px 22px;">
+            <sc-for list="{{ categoryDistribution }}" as="cd" hint-placeholder-count="4">
+              <div style="margin-bottom:13px;">
+                <div style="display:flex;justify-content:space-between;font-size:12.5px;margin-bottom:5px;">
+                  <span style="font-weight:500;">{{ cd.name }}</span>
+                  <span style="color:oklch(52% 0.02 55);">{{ cd.count }}</span>
+                </div>
+                <div style="height:7px;border-radius:100px;background:oklch(94% 0.008 75);overflow:hidden;">
+                  <div style="{{ cd.barStyle }}height:100%;border-radius:100px;"></div>
+                </div>
+              </div>
+            </sc-for>
+            </div>
+          </div>
+        </div>
+
+        <div class="ph-two-col">
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;overflow:hidden;">
+            <div style="padding:14px 20px;background:oklch(96% 0.025 45);border-bottom:1px solid oklch(90% 0.012 70);font-family:'Lora',serif;font-size:16px;font-weight:600;">Últimas movimentações</div>
+            <div style="padding:6px 20px 6px;">
+            <sc-for list="{{ recentMovements }}" as="mv" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid oklch(94% 0.008 75);gap:10px;">
+                <div>
+                  <div style="font-size:13.5px;font-weight:500;">{{ mv.itemName }}</div>
+                  <div style="font-size:11.5px;color:oklch(62% 0.015 55);">{{ mv.reason }} · {{ mv.userName }}</div>
+                </div>
+                <span style="font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:100px;{{ mv.typeBadgeStyle }}">{{ mv.typeLabel }} {{ mv.qty }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ recentMovements.length === 0 }}" hint-placeholder-val="{{ false }}">
+              <div style="text-align:center;padding:20px 0;color:oklch(64% 0.01 260);font-size:13px;">Nenhuma movimentação ainda.</div>
+            </sc-if>
+            </div>
+          </div>
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;overflow:hidden;">
+            <div style="padding:14px 20px;background:oklch(96% 0.025 45);border-bottom:1px solid oklch(90% 0.012 70);font-family:'Lora',serif;font-size:16px;font-weight:600;">Itens em estoque baixo</div>
+            <div style="padding:6px 20px 6px;">
+            <sc-for list="{{ lowStockItemsList }}" as="it" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:10px 0;border-bottom:1px solid oklch(94% 0.008 75);gap:10px;">
+                <div>
+                  <div style="font-size:13.5px;font-weight:500;">{{ it.name }}</div>
+                  <div style="font-size:11.5px;color:oklch(62% 0.015 55);">{{ it.locationName }}</div>
+                </div>
+                <span style="font-size:11.5px;font-weight:600;padding:3px 9px;border-radius:100px;{{ it.statusBadgeStyle }}">{{ it.statusLabel }}</span>
+              </div>
+            </sc-for>
+            <sc-if value="{{ lowStockItemsList.length === 0 }}" hint-placeholder-val="{{ false }}">
+              <div style="text-align:center;padding:20px 0;color:oklch(64% 0.01 260);font-size:13px;">Tudo certo por aqui.</div>
+            </sc-if>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ screen === 'items' }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px;">
+          <div>
+            <div style="font-family:'Lora',serif;font-size:28px;font-weight:700;">Itens de estoque</div>
+            <div style="font-size:13.5px;color:oklch(52% 0.02 55);margin-top:4px;">Feno, insumos e medicamentos cadastrados.</div>
+          </div>
+          <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ openNewItemWizard }}" style="display:flex;align-items:center;gap:7px;padding:10px 16px;border:none;border-radius:8px;background:oklch(40% 0.09 43);color:white;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:0 6px 16px -6px oklch(40% 0.09 43 / 0.45);transition:transform .12s ease;" style-hover="transform:translateY(-1px);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Novo item
+          </button>
+          </sc-if>
+        </div>
+        <sc-if value="{{ !isAdmin }}" hint-placeholder-val="{{ false }}">
+          <div style="display:inline-block;font-size:12px;font-weight:600;padding:5px 11px;border-radius:100px;background:oklch(93% 0.02 55);color:oklch(50% 0.03 45);margin-bottom:14px;">Modo somente leitura</div>
+        </sc-if>
+        <div style="position:relative;max-width:340px;margin-bottom:16px;">
+          <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="oklch(62% 0.015 55)" stroke-width="2" style="position:absolute;left:12px;top:50%;transform:translateY(-50%);"><circle cx="10" cy="10" r="6.5"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg>
+          <input type="text" placeholder="Buscar por nome..." value="{{ searchQuery }}" onChange="{{ setSearchQuery }}" style="width:100%;padding:10px 13px 10px 34px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;background:oklch(100% 0 0);"/>
+        </div>
+        <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;overflow:hidden;">
+          <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr 0.8fr 1fr 0.9fr;gap:8px;padding:12px 18px;background:oklch(96% 0.025 45);font-size:11px;font-weight:700;letter-spacing:0.04em;color:oklch(48% 0.05 45);">
+            <div>NOME</div><div>CATEGORIA</div><div>LOCAL</div><div>QTD.</div><div>STATUS</div><div>AÇÕES</div>
+          </div>
+          <sc-for list="{{ itemsFiltered }}" as="it" hint-placeholder-count="5">
+            <div style="display:grid;grid-template-columns:1.8fr 1fr 1fr 0.8fr 1fr 0.9fr;gap:8px;padding:14px 18px;border-top:1px solid oklch(94% 0.008 75);align-items:center;font-size:13.5px;transition:background .1s ease;" style-hover="background:oklch(98% 0.006 75);">
+              <div style="font-weight:500;">{{ it.name }}</div>
+              <div style="color:oklch(52% 0.02 55);">{{ it.categoryName }}</div>
+              <div style="color:oklch(52% 0.02 55);">{{ it.locationName }}</div>
+              <div>{{ it.qty }} {{ it.unit }}</div>
+              <div><span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;{{ it.statusBadgeStyle }}">{{ it.statusLabel }}</span></div>
+              <div style="display:flex;gap:8px;">
+                <sc-if value="{{ isAdmin }}" hint-placeholder-val="{{ true }}">
+                <button onClick="{{ it.onEdit }}" title="Editar" style="width:30px;height:30px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(100% 0 0);cursor:pointer;display:flex;align-items:center;justify-content:center;color:oklch(40% 0.02 55);transition:border-color .1s ease;" style-hover="border-color:oklch(40% 0.09 43);color:oklch(34% 0.09 43);">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20l4-1 11-11-3-3L5 16z"/></svg>
+                </button>
+                <button onClick="{{ it.onDelete }}" title="Excluir" style="width:30px;height:30px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(100% 0 0);cursor:pointer;display:flex;align-items:center;justify-content:center;color:oklch(55% 0.19 25);transition:border-color .1s ease;" style-hover="border-color:oklch(55% 0.19 25);background:oklch(97% 0.03 25);">
+                  <svg viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" y1="7" x2="20" y2="7"/><line x1="9" y1="7" x2="9" y2="4"/><line x1="15" y1="7" x2="15" y2="4"/><path d="M6 7l1 13h10l1-13"/></svg>
+                </button>
+                </sc-if>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ itemsFiltered.length === 0 }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:48px 20px;text-align:center;">
+              <div style="width:52px;height:52px;border-radius:12px;background:oklch(97% 0.008 75);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="oklch(70% 0.015 60)" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="10" cy="10" r="6.5"/><line x1="20" y1="20" x2="15.5" y2="15.5"/></svg></div>
+              <div style="color:oklch(55% 0.02 55);font-size:13.5px;">Nenhum item encontrado.</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ screen === 'movements' }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px;">
+          <div>
+            <div style="font-family:'Lora',serif;font-size:28px;font-weight:700;">Entrada &amp; Saída</div>
+            <div style="font-size:13.5px;color:oklch(52% 0.02 55);margin-top:4px;">Registro de movimentações e histórico do estoque.</div>
+          </div>
+          <sc-if value="{{ canRegisterMovement }}" hint-placeholder-val="{{ true }}">
+          <button onClick="{{ openNewMovementWizard }}" style="display:flex;align-items:center;gap:7px;padding:10px 16px;border:none;border-radius:8px;background:oklch(40% 0.09 43);color:white;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:0 6px 16px -6px oklch(40% 0.09 43 / 0.45);transition:transform .12s ease;" style-hover="transform:translateY(-1px);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Nova movimentação
+          </button>
+          </sc-if>
+        </div>
+        <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;overflow:hidden;">
+          <div style="display:grid;grid-template-columns:1.6fr 0.8fr 0.8fr 0.9fr 1.4fr 1fr 1fr;gap:8px;padding:12px 18px;background:oklch(96% 0.025 45);font-size:11px;font-weight:700;letter-spacing:0.04em;color:oklch(48% 0.05 45);">
+            <div>ITEM</div><div>TIPO</div><div>QTD.</div><div>SALDO</div><div>MOTIVO</div><div>RESPONSÁVEL</div><div>DATA</div>
+          </div>
+          <sc-for list="{{ movementsEnriched }}" as="mv" hint-placeholder-count="5">
+            <div style="display:grid;grid-template-columns:1.6fr 0.8fr 0.8fr 0.9fr 1.4fr 1fr 1fr;gap:8px;padding:13px 18px;border-top:1px solid oklch(94% 0.008 75);align-items:center;font-size:13px;transition:background .1s ease;" style-hover="background:oklch(98% 0.006 75);">
+              <div style="font-weight:500;">{{ mv.itemName }}</div>
+              <div><span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;{{ mv.typeBadgeStyle }}">{{ mv.typeLabel }}</span></div>
+              <div>{{ mv.qty }}</div>
+              <div style="{{ mv.balanceStyle }}">{{ mv.resultingQty }}</div>
+              <div style="color:oklch(52% 0.02 55);">{{ mv.reason }}</div>
+              <div style="color:oklch(52% 0.02 55);">{{ mv.userName }}</div>
+              <div style="color:oklch(62% 0.015 55);font-size:12px;">{{ mv.date }}</div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ movementsEnriched.length === 0 }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:48px 20px;text-align:center;">
+              <div style="width:52px;height:52px;border-radius:12px;background:oklch(97% 0.008 75);display:flex;align-items:center;justify-content:center;margin:0 auto 14px;"><svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="oklch(70% 0.015 60)" stroke-width="1.6" stroke-linecap="round"><line x1="4" y1="8" x2="16" y2="8"/><polyline points="12,4 16,8 12,12"/><line x1="20" y1="16" x2="8" y2="16"/><polyline points="12,20 8,16 12,12"/></svg></div>
+              <div style="color:oklch(55% 0.02 55);font-size:13.5px;">Nenhuma movimentação registrada ainda.</div>
+            </div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ screen === 'notifications' }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px;">
+          <div>
+            <div style="font-family:'Lora',serif;font-size:28px;font-weight:700;">Central de notificações</div>
+            <div style="font-size:13.5px;color:oklch(52% 0.02 55);margin-top:4px;">Histórico de alertas de estoque baixo já disparados para a equipe.</div>
+          </div>
+          <button onClick="{{ togglePush }}" style="{{ pushButtonStyle }}">
+            <sc-if value="{{ pushEnabled }}" hint-placeholder-val="{{ false }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,13 9,18 20,6"/></svg></sc-if>
+            <sc-if value="{{ !pushEnabled }}" hint-placeholder-val="{{ true }}"><svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0112 0v4l1.5 3h-15L6 14z"/><path d="M10 20a2 2 0 004 0"/></svg></sc-if>
+            {{ pushButtonLabel }}
+          </button>
+        </div>
+        <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;">
+          <sc-for list="{{ notificationsLog }}" as="nlog" hint-placeholder-count="3">
+            <div style="display:flex;align-items:flex-start;gap:12px;padding:16px 20px;border-bottom:1px solid oklch(94% 0.008 75);">
+              <div style="width:30px;height:30px;border-radius:8px;background:oklch(94% 0.06 55);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+                <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="oklch(48% 0.15 55)" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0112 0v4l1.5 3h-15L6 14z"/><path d="M10 20a2 2 0 004 0"/></svg>
+              </div>
+              <div style="flex:1;">
+                <div style="font-size:13.5px;">{{ nlog.message }}</div>
+                <div style="font-size:11.5px;color:oklch(62% 0.015 55);margin-top:3px;">{{ nlog.date }}</div>
+              </div>
+            </div>
+          </sc-for>
+          <sc-if value="{{ notificationsLog.length === 0 }}" hint-placeholder-val="{{ false }}">
+            <div style="padding:40px 20px;text-align:center;color:oklch(55% 0.02 55);font-size:13.5px;">Nenhum alerta disparado ainda.</div>
+          </sc-if>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ screen === 'users' }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;margin-bottom:18px;">
+          <div>
+            <div style="font-family:'Lora',serif;font-size:28px;font-weight:700;">Usuários</div>
+            <div style="font-size:13.5px;color:oklch(52% 0.02 55);margin-top:4px;">Cadastro e permissões da equipe.</div>
+          </div>
+          <button onClick="{{ openNewUserWizard }}" style="display:flex;align-items:center;gap:7px;padding:10px 16px;border:none;border-radius:8px;background:oklch(40% 0.09 43);color:white;font-weight:600;font-size:13.5px;cursor:pointer;box-shadow:0 6px 16px -6px oklch(40% 0.09 43 / 0.45);transition:transform .12s ease;" style-hover="transform:translateY(-1px);">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+            Novo usuário
+          </button>
+        </div>
+        <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;overflow:hidden;">
+          <div style="display:grid;grid-template-columns:1.4fr 1.6fr 1.2fr 0.8fr 1.4fr;gap:8px;padding:12px 18px;background:oklch(96% 0.025 45);font-size:11px;font-weight:700;letter-spacing:0.04em;color:oklch(48% 0.05 45);">
+            <div>NOME</div><div>E-MAIL</div><div>PERFIL</div><div>STATUS</div><div>AÇÕES</div>
+          </div>
+          <sc-for list="{{ usersEnriched }}" as="u" hint-placeholder-count="4">
+            <div style="display:grid;grid-template-columns:1.4fr 1.6fr 1.2fr 0.8fr 1.4fr;gap:8px;padding:13px 18px;border-top:1px solid oklch(94% 0.008 75);align-items:center;font-size:13.5px;transition:background .1s ease;" style-hover="background:oklch(98% 0.006 75);">
+              <div style="display:flex;align-items:center;gap:9px;font-weight:500;">
+                <div style="width:26px;height:26px;border-radius:50%;background:oklch(94% 0.03 45);color:oklch(34% 0.09 43);font-size:11px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;">{{ u.initials }}</div>
+                {{ u.name }}
+              </div>
+              <div style="color:oklch(52% 0.02 55);">{{ u.email }}</div>
+              <div style="position:relative;">
+                <div onClick="{{ u.roleDD.toggle }}" style="font-size:12.5px;padding:6px 10px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(98% 0.006 75);cursor:pointer;display:flex;align-items:center;gap:12px;justify-content:space-between;">
+                  <span>{{ u.roleDD.selectedLabel }}</span>
+                  <svg width="10" height="6" viewBox="0 0 10 6" fill="none"><path d="M1 1l4 4 4-4" stroke="#5c4f42" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </div>
+                <sc-if value="{{ u.roleDD.isOpen }}" hint-placeholder-val="{{ false }}">
+                  <div onClick="{{ closeAllDropdowns }}" style="position:fixed;inset:0;z-index:499;"></div>
+                  <div style="position:absolute;top:calc(100% + 4px);left:0;right:0;background:oklch(100% 0 0);border:1px solid oklch(88% 0.012 70);border-radius:8px;box-shadow:0 10px 26px -8px oklch(20% 0.02 50 / 0.28);z-index:500;overflow:hidden;">
+                    <sc-for list="{{ u.roleDD.options }}" as="opt" hint-placeholder-count="3">
+                      <div onClick="{{ opt.onClick }}" style="{{ opt.rowStyle }}">{{ opt.label }}</div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+              </div>
+              <div><span style="font-size:11px;font-weight:600;padding:3px 9px;border-radius:100px;{{ u.statusBadgeStyle }}">{{ u.statusLabel }}</span></div>
+              <div style="display:flex;gap:7px;flex-wrap:wrap;">
+                <button onClick="{{ u.onToggleStatus }}" style="padding:6px 10px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(100% 0 0);font-size:12px;font-weight:600;cursor:pointer;color:oklch(40% 0.02 55);">{{ u.toggleStatusLabel }}</button>
+                <button onClick="{{ u.onResetPassword }}" style="padding:6px 10px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(100% 0 0);font-size:12px;font-weight:600;cursor:pointer;color:oklch(40% 0.02 55);">Redefinir senha</button>
+              </div>
+            </div>
+          </sc-for>
+        </div>
+      </div>
+      </sc-if>
+
+      <sc-if value="{{ screen === 'settings' }}" hint-placeholder-val="{{ false }}">
+      <div>
+        <div style="font-family:'Lora',serif;font-size:28px;font-weight:700;">Configurações</div>
+        <div style="font-size:13.5px;color:oklch(52% 0.02 55);margin-top:4px;margin-bottom:20px;max-width:760px;">Categorias, locais e unidades de medida são listas abertas — adicione quantas precisar. A quantidade mínima de alerta é definida individualmente em cada item, na tela "Itens de estoque".</div>
+        <div class="ph-settings-grid">
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;overflow:hidden;">
+            <div style="padding:14px 20px;background:oklch(96% 0.025 45);border-bottom:1px solid oklch(90% 0.012 70);font-family:'Lora',serif;font-size:16px;font-weight:600;">Categorias</div>
+            <div style="padding:8px 20px 18px;">
+            <sc-for list="{{ categories }}" as="c" hint-placeholder-count="3">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid oklch(94% 0.008 75);">
+                <span style="font-size:13.5px;">{{ c.name }}</span>
+                <div style="display:flex;gap:6px;">
+                  <button onClick="{{ c.onEdit }}" style="padding:5px 10px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(100% 0 0);font-size:12px;cursor:pointer;">Editar</button>
+                  <button onClick="{{ c.onDelete }}" style="padding:5px 10px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(100% 0 0);font-size:12px;cursor:pointer;">Excluir</button>
+                </div>
+              </div>
+            </sc-for>
+            <div style="display:flex;gap:8px;margin-top:12px;">
+              <input type="text" placeholder="Adicionar novo..." value="{{ newCategoryName }}" onChange="{{ setNewCategoryName }}" style="flex:1;padding:9px 11px;border:1px solid oklch(88% 0.012 70);border-radius:7px;font-size:13px;outline:none;"/>
+              <button onClick="{{ addCategory }}" style="padding:9px 14px;border:none;border-radius:7px;background:oklch(40% 0.09 43);color:white;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Adicionar</button>
+            </div>
+            </div>
+          </div>
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;overflow:hidden;">
+            <div style="padding:14px 20px;background:oklch(96% 0.025 45);border-bottom:1px solid oklch(90% 0.012 70);font-family:'Lora',serif;font-size:16px;font-weight:600;">Locais de armazenamento</div>
+            <div style="padding:8px 20px 18px;">
+            <sc-for list="{{ locations }}" as="l" hint-placeholder-count="4">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid oklch(94% 0.008 75);">
+                <span style="font-size:13.5px;">{{ l.name }}</span>
+                <div style="display:flex;gap:6px;">
+                  <button onClick="{{ l.onEdit }}" style="padding:5px 10px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(100% 0 0);font-size:12px;cursor:pointer;">Editar</button>
+                  <button onClick="{{ l.onDelete }}" style="padding:5px 10px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(100% 0 0);font-size:12px;cursor:pointer;">Excluir</button>
+                </div>
+              </div>
+            </sc-for>
+            <div style="display:flex;gap:8px;margin-top:12px;">
+              <input type="text" placeholder="Adicionar novo..." value="{{ newLocationName }}" onChange="{{ setNewLocationName }}" style="flex:1;padding:9px 11px;border:1px solid oklch(88% 0.012 70);border-radius:7px;font-size:13px;outline:none;"/>
+              <button onClick="{{ addLocation }}" style="padding:9px 14px;border:none;border-radius:7px;background:oklch(40% 0.09 43);color:white;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Adicionar</button>
+            </div>
+            </div>
+          </div>
+          <div style="background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:14px;overflow:hidden;">
+            <div style="padding:14px 20px;background:oklch(96% 0.025 45);border-bottom:1px solid oklch(90% 0.012 70);font-family:'Lora',serif;font-size:16px;font-weight:600;">Unidades de medida</div>
+            <div style="padding:8px 20px 18px;">
+            <sc-for list="{{ units }}" as="un" hint-placeholder-count="5">
+              <div style="display:flex;align-items:center;justify-content:space-between;padding:9px 0;border-bottom:1px solid oklch(94% 0.008 75);">
+                <span style="font-size:13.5px;">{{ un.name }}</span>
+                <div style="display:flex;gap:6px;">
+                  <button onClick="{{ un.onEdit }}" style="padding:5px 10px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(100% 0 0);font-size:12px;cursor:pointer;">Editar</button>
+                  <button onClick="{{ un.onDelete }}" style="padding:5px 10px;border:1px solid oklch(88% 0.012 70);border-radius:7px;background:oklch(100% 0 0);font-size:12px;cursor:pointer;">Excluir</button>
+                </div>
+              </div>
+            </sc-for>
+            <div style="display:flex;gap:8px;margin-top:12px;">
+              <input type="text" placeholder="Adicionar novo..." value="{{ newUnitName }}" onChange="{{ setNewUnitName }}" style="flex:1;padding:9px 11px;border:1px solid oklch(88% 0.012 70);border-radius:7px;font-size:13px;outline:none;"/>
+              <button onClick="{{ addUnit }}" style="padding:9px 14px;border:none;border-radius:7px;background:oklch(40% 0.09 43);color:white;font-size:13px;font-weight:600;cursor:pointer;white-space:nowrap;">Adicionar</button>
+            </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </sc-if>
+
+    </div>
+  </div>
+
+  <div class="ph-bottomnav" style="position:fixed;bottom:14px;left:50%;transform:translateX(-50%);background:oklch(100% 0 0);border:1px solid oklch(90% 0.012 70);border-radius:100px;box-shadow:0 8px 24px -8px oklch(30% 0.03 60 / 0.28);padding:8px 10px;gap:2px;z-index:40;max-width:94vw;overflow-x:auto;">
+    <sc-for list="{{ navItems }}" as="nav" hint-placeholder-count="6">
+      <sc-if value="{{ nav.visible }}" hint-placeholder-val="{{ true }}">
+      <div onClick="{{ nav.onClick }}" style="{{ nav.mobileStyle }}">
+        <sc-if value="{{ nav.isDashboard }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg></sc-if>
+        <sc-if value="{{ nav.isItems }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="1.3"/><polyline points="3,8 12,3 21,8"/></svg></sc-if>
+        <sc-if value="{{ nav.isMovements }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><line x1="4" y1="8" x2="16" y2="8"/><polyline points="12,4 16,8 12,12"/><line x1="20" y1="16" x2="8" y2="16"/><polyline points="12,20 8,16 12,12"/></svg></sc-if>
+        <sc-if value="{{ nav.isNotifications }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M6 10a6 6 0 0112 0v4l1.5 3h-15L6 14z"/><path d="M10 20a2 2 0 004 0"/></svg></sc-if>
+        <sc-if value="{{ nav.isUsers }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="9" cy="8" r="3"/><path d="M4 19c0-3 2.3-5 5-5s5 2 5 5"/><circle cx="17" cy="9" r="2.2"/><path d="M15.2 19c0-2.4 1-4.1 2.8-4.6"/></svg></sc-if>
+        <sc-if value="{{ nav.isSettings }}"><svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><circle cx="12" cy="12" r="3"/><line x1="12" y1="2.5" x2="12" y2="5.5"/><line x1="12" y1="18.5" x2="12" y2="21.5"/><line x1="2.5" y1="12" x2="5.5" y2="12"/><line x1="18.5" y1="12" x2="21.5" y2="12"/><line x1="5" y1="5" x2="7.1" y2="7.1"/><line x1="16.9" y1="16.9" x2="19" y2="19"/><line x1="5" y1="19" x2="7.1" y2="16.9"/><line x1="16.9" y1="7.1" x2="19" y2="5"/></svg></sc-if>
+      </div>
+      </sc-if>
+    </sc-for>
+  </div>
+
+</div>
+</sc-if>
+
+<sc-if value="{{ wizard.type }}" hint-placeholder-val="{{ false }}">
+<div class="ph-backdrop" style="position:fixed;inset:0;background:oklch(20% 0.02 50 / 0.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100;">
+  <div class="ph-card-anim" style="width:100%;max-width:560px;max-height:90vh;overflow-y:auto;background:oklch(100% 0 0);border-radius:14px;box-shadow:0 20px 50px -12px oklch(20% 0.02 50 / 0.35);">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-bottom:1px solid oklch(94% 0.008 75);">
+      <div style="font-family:'Lora',serif;font-size:18px;font-weight:600;">{{ wizardTitle }}</div>
+      <div onClick="{{ closeWizard }}" style="cursor:pointer;color:oklch(55% 0.02 55);padding:4px;">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg>
+      </div>
+    </div>
+
+    <div style="display:flex;align-items:center;padding:18px 26px 4px;gap:6px;">
+      <sc-for list="{{ wizardStepperItems }}" as="ws" hint-placeholder-count="4">
+        <div style="display:flex;align-items:center;flex:1;">
+          <div style="{{ ws.dotStyle }}">
+            <sc-if value="{{ ws.done }}" hint-placeholder-val="{{ false }}"><svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,13 9,18 20,6"/></svg></sc-if>
+            <sc-if value="{{ !ws.done }}" hint-placeholder-val="{{ true }}">{{ ws.number }}</sc-if>
+          </div>
+          <sc-if value="{{ !ws.isLast }}" hint-placeholder-val="{{ true }}"><div style="{{ ws.lineStyle }}"></div></sc-if>
+        </div>
+      </sc-for>
+    </div>
+    <div style="display:flex;padding:2px 26px 16px;gap:6px;">
+      <sc-for list="{{ wizardStepperItems }}" as="ws2" hint-placeholder-count="4">
+        <div style="flex:1;font-size:10.5px;text-align:center;color:{{ ws2.labelColor }};font-weight:600;">{{ ws2.label }}</div>
+      </sc-for>
+    </div>
+
+    <div style="padding:6px 26px 8px;">
+
+      <sc-if value="{{ niStep0 }}" hint-placeholder-val="{{ false }}">
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Nome do item</label>
+        <input type="text" placeholder="ex: Feno Tifton" value="{{ wizard.data.name }}" onChange="{{ wfName }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;margin-bottom:14px;outline:none;"/>
+        <div class="ph-two-col">
+          <div>
+            <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Categoria</label>
+            <div style="position:relative;">
+              <div onClick="{{ wizCategoryDD.toggle }}" style="{{ ddTriggerStyle }}">
+                <span>{{ wizCategoryDD.selectedLabel }}</span>
+                <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#5c4f42" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <sc-if value="{{ wizCategoryDD.isOpen }}" hint-placeholder-val="{{ false }}">
+                <div onClick="{{ closeAllDropdowns }}" style="position:fixed;inset:0;z-index:499;"></div>
+                <div style="{{ ddPanelStyle }}">
+                  <sc-for list="{{ wizCategoryDD.options }}" as="opt" hint-placeholder-count="4">
+                    <div onClick="{{ opt.onClick }}" style="{{ opt.rowStyle }}">{{ opt.label }}</div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+          <div>
+            <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Local de armazenamento</label>
+            <div style="position:relative;">
+              <div onClick="{{ wizLocationDD.toggle }}" style="{{ ddTriggerStyle }}">
+                <span>{{ wizLocationDD.selectedLabel }}</span>
+                <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#5c4f42" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </div>
+              <sc-if value="{{ wizLocationDD.isOpen }}" hint-placeholder-val="{{ false }}">
+                <div onClick="{{ closeAllDropdowns }}" style="position:fixed;inset:0;z-index:499;"></div>
+                <div style="{{ ddPanelStyle }}">
+                  <sc-for list="{{ wizLocationDD.options }}" as="opt" hint-placeholder-count="4">
+                    <div onClick="{{ opt.onClick }}" style="{{ opt.rowStyle }}">{{ opt.label }}</div>
+                  </sc-for>
+                </div>
+              </sc-if>
+            </div>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ niStep1 }}" hint-placeholder-val="{{ false }}">
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Unidade de medida</label>
+        <div style="position:relative;margin-bottom:14px;">
+          <div onClick="{{ wizUnitDD.toggle }}" style="{{ ddTriggerStyle }}">
+            <span>{{ wizUnitDD.selectedLabel }}</span>
+            <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#5c4f42" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <sc-if value="{{ wizUnitDD.isOpen }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeAllDropdowns }}" style="position:fixed;inset:0;z-index:499;"></div>
+            <div style="{{ ddPanelStyle }}">
+              <sc-for list="{{ wizUnitDD.options }}" as="opt" hint-placeholder-count="6">
+                <div onClick="{{ opt.onClick }}" style="{{ opt.rowStyle }}">{{ opt.label }}</div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ wizard.data.unit === '__custom' }}" hint-placeholder-val="{{ false }}">
+          <input type="text" placeholder="Digite a unidade" value="{{ wizard.data.customUnit }}" onChange="{{ wfCustomUnit }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;margin-bottom:14px;outline:none;"/>
+        </sc-if>
+        <div class="ph-two-col">
+          <div>
+            <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Quantidade atual</label>
+            <input type="number" value="{{ wizard.data.qty }}" onChange="{{ wfQty }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;"/>
+          </div>
+          <div>
+            <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Quantidade mínima de alerta</label>
+            <input type="number" value="{{ wizard.data.minQty }}" onChange="{{ wfMinQty }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;"/>
+          </div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ niStep2 }}" hint-placeholder-val="{{ false }}">
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Validade (opcional)</label>
+        <input type="date" value="{{ wizard.data.expiry }}" onChange="{{ wfExpiry }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;margin-bottom:14px;outline:none;"/>
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Fornecedor (opcional)</label>
+        <input type="text" value="{{ wizard.data.supplier }}" onChange="{{ wfSupplier }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;margin-bottom:14px;outline:none;"/>
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Preço de custo (opcional)</label>
+        <input type="number" value="{{ wizard.data.cost }}" onChange="{{ wfCost }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;"/>
+      </sc-if>
+
+      <sc-if value="{{ niStep3 }}" hint-placeholder-val="{{ false }}">
+        <div style="background:oklch(97% 0.008 75);border-radius:10px;padding:16px 18px;font-size:13.5px;line-height:1.9;">
+          <div><strong>Nome:</strong> {{ wizard.data.name }}</div>
+          <div><strong>Categoria:</strong> {{ niReviewCategoryName }}</div>
+          <div><strong>Local:</strong> {{ niReviewLocationName }}</div>
+          <div><strong>Quantidade:</strong> {{ wizard.data.qty }} {{ niReviewUnit }} (mínimo {{ wizard.data.minQty }})</div>
+          <sc-if value="{{ wizard.data.supplier }}" hint-placeholder-val="{{ false }}"><div><strong>Fornecedor:</strong> {{ wizard.data.supplier }}</div></sc-if>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ nmStep0 }}" hint-placeholder-val="{{ false }}">
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Item</label>
+        <div style="position:relative;margin-bottom:8px;">
+          <div onClick="{{ wizMoveItemDD.toggle }}" style="{{ ddTriggerStyle }}">
+            <span>{{ wizMoveItemDD.selectedLabel }}</span>
+            <svg width="11" height="7" viewBox="0 0 11 7" fill="none"><path d="M1 1l4.5 4.5L10 1" stroke="#5c4f42" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <sc-if value="{{ wizMoveItemDD.isOpen }}" hint-placeholder-val="{{ false }}">
+            <div onClick="{{ closeAllDropdowns }}" style="position:fixed;inset:0;z-index:499;"></div>
+            <div style="{{ ddPanelStyle }}">
+              <sc-for list="{{ wizMoveItemDD.options }}" as="opt" hint-placeholder-count="6">
+                <div onClick="{{ opt.onClick }}" style="{{ opt.rowStyle }}">{{ opt.label }}</div>
+              </sc-for>
+            </div>
+          </sc-if>
+        </div>
+        <sc-if value="{{ moveSelectedItem }}" hint-placeholder-val="{{ false }}">
+          <div style="font-size:12px;color:oklch(52% 0.02 55);margin-bottom:16px;">Saldo atual: <strong>{{ moveSelectedItem.qty }} {{ moveSelectedItem.unit }}</strong></div>
+        </sc-if>
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:7px;">Tipo de movimentação</label>
+        <div style="display:flex;gap:10px;">
+          <div onClick="{{ wfMoveTypeEntrada }}" style="{{ moveTypeEntradaStyle }}">Entrada</div>
+          <div onClick="{{ wfMoveTypeSaida }}" style="{{ moveTypeSaidaStyle }}">Saída</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ nmStep1 }}" hint-placeholder-val="{{ false }}">
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Quantidade</label>
+        <input type="number" value="{{ wizard.data.qty }}" onChange="{{ wfMoveQty }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;margin-bottom:14px;outline:none;"/>
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Motivo/observação</label>
+        <input type="text" placeholder="ex: uso veterinário, compra mensal, perda" value="{{ wizard.data.reason }}" onChange="{{ wfMoveReason }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;"/>
+      </sc-if>
+
+      <sc-if value="{{ nmStep2 }}" hint-placeholder-val="{{ false }}">
+        <div style="background:oklch(97% 0.008 75);border-radius:10px;padding:16px 18px;font-size:13.5px;line-height:1.9;margin-bottom:12px;">
+          <div><strong>Item:</strong> {{ moveSelectedItem.name }}</div>
+          <div><strong>Tipo:</strong> <span style="{{ moveReviewTypeBadge }}">{{ moveReviewTypeLabel }}</span></div>
+          <div><strong>Quantidade:</strong> {{ wizard.data.qty }}</div>
+          <div><strong>Motivo:</strong> {{ wizard.data.reason }}</div>
+          <div><strong>Novo saldo:</strong> {{ moveNewBalance }} {{ moveSelectedItem.unit }}</div>
+        </div>
+        <sc-if value="{{ moveWarning }}" hint-placeholder-val="{{ false }}">
+          <div style="{{ moveWarningStyle }}">{{ moveWarningText }}</div>
+        </sc-if>
+      </sc-if>
+
+      <sc-if value="{{ nuStep0 }}" hint-placeholder-val="{{ false }}">
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Nome completo</label>
+        <input type="text" value="{{ wizard.data.name }}" onChange="{{ wfUserName }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;margin-bottom:14px;outline:none;"/>
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">E-mail</label>
+        <input type="text" placeholder="nome@primehorse.com" value="{{ wizard.data.email }}" onChange="{{ wfUserEmail }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;"/>
+      </sc-if>
+
+      <sc-if value="{{ nuStep1 }}" hint-placeholder-val="{{ false }}">
+        <div onClick="{{ wfRoleAdmin }}" style="{{ roleCardAdminStyle }}">
+          <div style="font-weight:600;font-size:13.5px;">Administrador</div>
+          <div style="font-size:12px;color:oklch(52% 0.02 55);margin-top:3px;">Acesso total: itens, categorias, locais, unidades, usuários e alertas.</div>
+        </div>
+        <div onClick="{{ wfRoleOperador }}" style="{{ roleCardOperadorStyle }}">
+          <div style="font-weight:600;font-size:13.5px;">Operador de campo</div>
+          <div style="font-size:12px;color:oklch(52% 0.02 55);margin-top:3px;">Registra apenas movimentações de entrada e saída.</div>
+        </div>
+        <div onClick="{{ wfRoleFinanceiro }}" style="{{ roleCardFinanceiroStyle }}">
+          <div style="font-weight:600;font-size:13.5px;">Financeiro</div>
+          <div style="font-size:12px;color:oklch(52% 0.02 55);margin-top:3px;">Somente leitura: itens, estoque e histórico.</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ nuStep2 }}" hint-placeholder-val="{{ false }}">
+        <div style="background:oklch(97% 0.008 75);border-radius:10px;padding:16px 18px;font-size:13.5px;line-height:1.9;margin-bottom:12px;">
+          <div><strong>Nome:</strong> {{ wizard.data.name }}</div>
+          <div><strong>E-mail:</strong> {{ wizard.data.email }}</div>
+          <div><strong>Perfil:</strong> {{ nuReviewRoleLabel }}</div>
+        </div>
+        <div style="background:oklch(94% 0.03 45);border-radius:10px;padding:14px 18px;font-size:13px;">
+          <div style="font-weight:600;margin-bottom:4px;color:oklch(34% 0.09 43);">Senha temporária gerada</div>
+          <div style="font-family:monospace;font-size:14px;color:oklch(34% 0.09 43);">{{ wizard.data.tempPassword }}</div>
+          <div style="margin-top:5px;color:oklch(40% 0.05 45);">O usuário deverá definir uma nova senha no primeiro acesso.</div>
+        </div>
+      </sc-if>
+
+      <sc-if value="{{ faStep0 }}" hint-placeholder-val="{{ false }}">
+        <div style="font-size:13.5px;color:oklch(40% 0.02 55);margin-bottom:16px;line-height:1.6;">Bem-vindo(a), {{ user.name }}. Sua senha atual é temporária — defina uma nova senha para continuar.</div>
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Nova senha</label>
+        <input type="password" value="{{ wizard.data.password }}" onChange="{{ wfFaPassword }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;margin-bottom:14px;outline:none;"/>
+        <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Confirmar nova senha</label>
+        <input type="password" value="{{ wizard.data.confirmPassword }}" onChange="{{ wfFaConfirm }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;"/>
+        <sc-if value="{{ faPasswordMismatch }}" hint-placeholder-val="{{ false }}"><div style="font-size:12px;color:oklch(55% 0.19 25);margin-top:8px;">As senhas não coincidem ou têm menos de 6 caracteres.</div></sc-if>
+      </sc-if>
+
+      <sc-if value="{{ faStep1 }}" hint-placeholder-val="{{ false }}">
+        <div style="text-align:center;padding:20px 0;">
+          <div style="width:52px;height:52px;border-radius:50%;background:oklch(94% 0.045 148);display:flex;align-items:center;justify-content:center;margin:0 auto 16px;">
+            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="oklch(45% 0.12 148)" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,13 9,18 20,6"/></svg>
+          </div>
+          <div style="font-family:'Lora',serif;font-size:17px;font-weight:600;margin-bottom:6px;">Senha atualizada</div>
+          <div style="font-size:13px;color:oklch(52% 0.02 55);">Tudo pronto. Você já pode acessar o painel.</div>
+        </div>
+      </sc-if>
+
+    </div>
+
+    <div style="display:flex;justify-content:space-between;gap:10px;padding:18px 26px;border-top:1px solid oklch(94% 0.008 75);">
+      <sc-if value="{{ wizardShowBack }}" hint-placeholder-val="{{ false }}">
+        <button onClick="{{ wizardBackAction }}" style="padding:10px 18px;border:1px solid oklch(88% 0.012 70);border-radius:8px;background:oklch(100% 0 0);font-size:13.5px;font-weight:600;color:oklch(40% 0.02 55);cursor:pointer;">Voltar</button>
+      </sc-if>
+      <sc-if value="{{ !wizardShowBack }}" hint-placeholder-val="{{ true }}"><div></div></sc-if>
+      <button onClick="{{ wizardPrimaryAction }}" disabled="{{ wizardPrimaryDisabled }}" style="{{ wizardPrimaryStyle }}">{{ wizardPrimaryLabel }}</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ modal.type === 'editItem' }}" hint-placeholder-val="{{ false }}">
+<div class="ph-backdrop" style="position:fixed;inset:0;background:oklch(20% 0.02 50 / 0.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100;">
+  <div class="ph-card-anim" style="width:100%;max-width:520px;max-height:90vh;overflow-y:auto;background:oklch(100% 0 0);border-radius:14px;box-shadow:0 20px 50px -12px oklch(20% 0.02 50 / 0.35);">
+    <div style="display:flex;align-items:center;justify-content:space-between;padding:20px 26px;border-bottom:1px solid oklch(94% 0.008 75);">
+      <div style="font-family:'Lora',serif;font-size:18px;font-weight:600;">Editar item</div>
+      <div onClick="{{ closeModal }}" style="cursor:pointer;color:oklch(55% 0.02 55);"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round"><line x1="5" y1="5" x2="19" y2="19"/><line x1="19" y1="5" x2="5" y2="19"/></svg></div>
+    </div>
+    <div style="padding:20px 26px;">
+      <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Nome</label>
+      <input type="text" value="{{ modalForm.name }}" onChange="{{ mfName }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;margin-bottom:14px;outline:none;"/>
+      <div class="ph-two-col" style="margin-bottom:14px;">
+        <div>
+          <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Quantidade atual</label>
+          <input type="number" value="{{ modalForm.qty }}" onChange="{{ mfQty }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;"/>
+        </div>
+        <div>
+          <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Quantidade mínima</label>
+          <input type="number" value="{{ modalForm.minQty }}" onChange="{{ mfMinQty }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;"/>
+        </div>
+      </div>
+      <label style="font-size:12.5px;color:oklch(52% 0.02 55);display:block;margin-bottom:5px;">Fornecedor</label>
+      <input type="text" value="{{ modalForm.supplier }}" onChange="{{ mfSupplier }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;"/>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;padding:18px 26px;border-top:1px solid oklch(94% 0.008 75);">
+      <button onClick="{{ closeModal }}" style="padding:10px 18px;border:1px solid oklch(88% 0.012 70);border-radius:8px;background:oklch(100% 0 0);font-size:13.5px;font-weight:600;color:oklch(40% 0.02 55);cursor:pointer;">Cancelar</button>
+      <button onClick="{{ saveEditItem }}" style="padding:10px 18px;border:none;border-radius:8px;background:oklch(40% 0.09 43);color:white;font-size:13.5px;font-weight:600;cursor:pointer;">Salvar alterações</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ modal.type === 'editSetting' }}" hint-placeholder-val="{{ false }}">
+<div class="ph-backdrop" style="position:fixed;inset:0;background:oklch(20% 0.02 50 / 0.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100;">
+  <div class="ph-card-anim" style="width:100%;max-width:400px;background:oklch(100% 0 0);border-radius:14px;box-shadow:0 20px 50px -12px oklch(20% 0.02 50 / 0.35);">
+    <div style="padding:22px 24px 6px;">
+      <div style="font-family:'Lora',serif;font-size:17px;font-weight:600;margin-bottom:14px;">Editar</div>
+      <input type="text" value="{{ modalForm.name }}" onChange="{{ mfSettingName }}" style="width:100%;padding:10px 12px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;outline:none;"/>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;padding:18px 24px;">
+      <button onClick="{{ closeModal }}" style="padding:9px 16px;border:1px solid oklch(88% 0.012 70);border-radius:8px;background:oklch(100% 0 0);font-size:13px;font-weight:600;color:oklch(40% 0.02 55);cursor:pointer;">Cancelar</button>
+      <button onClick="{{ saveEditSetting }}" style="padding:9px 16px;border:none;border-radius:8px;background:oklch(40% 0.09 43);color:white;font-size:13px;font-weight:600;cursor:pointer;">Salvar</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ modal.type === 'confirm' }}" hint-placeholder-val="{{ false }}">
+<div class="ph-backdrop" style="position:fixed;inset:0;background:oklch(20% 0.02 50 / 0.45);display:flex;align-items:center;justify-content:center;padding:20px;z-index:100;">
+  <div class="ph-card-anim" style="width:100%;max-width:400px;background:oklch(100% 0 0);border-radius:14px;box-shadow:0 20px 50px -12px oklch(20% 0.02 50 / 0.35);">
+    <div style="padding:24px 24px 8px;">
+      <div style="font-family:'Lora',serif;font-size:17px;font-weight:600;margin-bottom:8px;">{{ modal.payload.title }}</div>
+      <div style="font-size:13.5px;color:oklch(52% 0.02 55);line-height:1.6;">{{ modal.payload.message }}</div>
+    </div>
+    <div style="display:flex;justify-content:flex-end;gap:10px;padding:18px 24px;">
+      <button onClick="{{ closeModal }}" style="padding:9px 16px;border:1px solid oklch(88% 0.012 70);border-radius:8px;background:oklch(100% 0 0);font-size:13px;font-weight:600;color:oklch(40% 0.02 55);cursor:pointer;">Cancelar</button>
+      <button onClick="{{ confirmModalAction }}" style="{{ confirmModalButtonStyle }}">{{ modal.payload.confirmLabel }}</button>
+    </div>
+  </div>
+</div>
+</sc-if>
+
+<sc-if value="{{ toast }}" hint-placeholder-val="{{ false }}">
+  <div class="ph-card-anim" style="position:fixed;bottom:24px;right:24px;left:auto;display:flex;align-items:center;gap:10px;background:oklch(100% 0 0);color:oklch(27% 0.02 50);padding:13px 18px;border-radius:10px;border-left:4px solid oklch(45% 0.13 148);font-size:13px;font-weight:500;box-shadow:0 10px 28px -8px oklch(20% 0.02 50 / 0.3);z-index:200;max-width:320px;">
+    <div style="width:22px;height:22px;border-radius:50%;background:oklch(94% 0.045 148);display:flex;align-items:center;justify-content:center;flex-shrink:0;">
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="oklch(45% 0.13 148)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><polyline points="4,13 9,18 20,6"/></svg>
+    </div>
+    <span>{{ toast }}</span>
+  </div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;initialScreen&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;login&quot;,&quot;options&quot;:[&quot;login&quot;,&quot;dashboard&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;showRoleSwitcher&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+const CATS = [{id:'c1',name:'Feno'},{id:'c2',name:'Insumo'},{id:'c3',name:'Medicamento'},{id:'c4',name:'Suplemento'}];
+const LOCS = [{id:'l1',name:'Galpão A'},{id:'l2',name:'Galpão B'},{id:'l3',name:'Depósito'},{id:'l4',name:'Farmácia'}];
+const UNITS = [{id:'u1',name:'fardo'},{id:'u2',name:'kg'},{id:'u3',name:'litro'},{id:'u4',name:'unidade'},{id:'u5',name:'saco'},{id:'u6',name:'ton'}];
+const ITEMS = [
+  {id:'it1',name:'Feno Tifton',categoryId:'c1',locationId:'l1',unit:'fardo',qty:18,minQty:20,expiry:'',supplier:'Agropecuária Rio Verde',cost:32},
+  {id:'it2',name:'Feno Coastcross',categoryId:'c1',locationId:'l2',unit:'fardo',qty:120,minQty:30,expiry:'',supplier:'Agropecuária Rio Verde',cost:28},
+  {id:'it3',name:'Ração concentrada 20%',categoryId:'c2',locationId:'l3',unit:'saco',qty:45,minQty:15,expiry:'',supplier:'Nutrihorse',cost:89},
+  {id:'it4',name:'Sal mineral',categoryId:'c2',locationId:'l3',unit:'kg',qty:8,minQty:10,expiry:'',supplier:'Nutrihorse',cost:14},
+  {id:'it5',name:'Vermífugo Equimax',categoryId:'c3',locationId:'l4',unit:'unidade',qty:-3,minQty:5,expiry:'2026-11-30',supplier:'VetSupply',cost:47},
+  {id:'it6',name:'Antibiótico Penicilina',categoryId:'c3',locationId:'l4',unit:'unidade',qty:22,minQty:8,expiry:'2027-03-10',supplier:'VetSupply',cost:63},
+  {id:'it7',name:'Suplemento Biotina',categoryId:'c4',locationId:'l3',unit:'pacote',qty:6,minQty:6,expiry:'',supplier:'Nutrihorse',cost:52},
+  {id:'it8',name:'Óleo de soja',categoryId:'c2',locationId:'l1',unit:'litro',qty:60,minQty:20,expiry:'',supplier:'Agropecuária Rio Verde',cost:9},
+];
+const MOVEMENTS = [
+  {id:'m1',itemId:'it5',type:'saida',qty:5,resultingQty:-3,reason:'uso veterinário',userName:'Marina Silva',date:'01/09/2026 09:12'},
+  {id:'m2',itemId:'it2',type:'entrada',qty:40,resultingQty:120,reason:'compra mensal',userName:'Julio Casagrande',date:'30/08/2026 16:40'},
+  {id:'m3',itemId:'it1',type:'saida',qty:12,resultingQty:18,reason:'consumo semanal',userName:'Marina Silva',date:'29/08/2026 08:05'},
+  {id:'m4',itemId:'it7',type:'saida',qty:4,resultingQty:6,reason:'uso veterinário',userName:'Marina Silva',date:'27/08/2026 14:22'},
+  {id:'m5',itemId:'it6',type:'entrada',qty:10,resultingQty:22,reason:'compra trimestral',userName:'Julio Casagrande',date:'22/08/2026 11:00'},
+  {id:'m6',itemId:'it4',type:'saida',qty:2,resultingQty:8,reason:'perda',userName:'Marina Silva',date:'20/08/2026 17:33'},
+];
+const USERS = [
+  {id:'us1',name:'Julio Casagrande',email:'julio@primehorse.com',role:'admin',status:'ativo'},
+  {id:'us2',name:'Marina Silva',email:'marina.silva@primehorse.com',role:'operador',status:'ativo'},
+  {id:'us3',name:'Fernando Souza',email:'fernando.souza@primehorse.com',role:'financeiro',status:'ativo'},
+  {id:'us4',name:'Pedro Lima',email:'pedro.lima@primehorse.com',role:'operador',status:'ativo'},
+];
+const NOTIFS = [
+  {id:'n1',message:'Feno Tifton está com estoque baixo: 18 fardos (mínimo 20).',date:'01/09/2026 07:00'},
+  {id:'n2',message:'Sal mineral está com estoque baixo: 8 kg (mínimo 10).',date:'29/08/2026 07:00'},
+  {id:'n3',message:'Vermífugo Equimax está com saldo negativo: -3 unidades.',date:'01/09/2026 09:12'},
+];
+const ROLE_LABEL = {admin:'Administrador',operador:'Operador de campo',financeiro:'Financeiro'};
+const NAV_DEF = [
+  {key:'dashboard',label:'Painel geral',kind:'dashboard',adminOnly:false},
+  {key:'items',label:'Itens de estoque',kind:'items',adminOnly:false},
+  {key:'movements',label:'Entrada & Saída',kind:'movements',adminOnly:false},
+  {key:'notifications',label:'Central de notificações',kind:'notifications',adminOnly:false},
+  {key:'users',label:'Usuários',kind:'users',adminOnly:true},
+  {key:'settings',label:'Configurações',kind:'settings',adminOnly:true},
+];
+const WIZARD_META = {
+  newItem:{title:'Novo item de estoque',steps:['Identificação','Quantidades','Detalhes','Revisão'],primaryLabels:['Avançar','Avançar','Avançar','Criar item']},
+  newMovement:{title:'Nova movimentação',steps:['Item e tipo','Quantidade e motivo','Revisão'],primaryLabels:['Avançar','Avançar','Registrar movimentação']},
+  newUser:{title:'Novo usuário',steps:['Dados','Perfil','Revisão'],primaryLabels:['Avançar','Avançar','Criar usuário']},
+  firstAccess:{title:'Primeiro acesso',steps:['Nova senha','Concluído'],primaryLabels:['Salvar nova senha','Ir para o painel']},
+};
+function genPass(){
+  const s = Math.random().toString(36).slice(2,8).toUpperCase();
+  return 'PH-' + s;
+}
+function statusOf(qty,minQty){
+  if(qty < 0) return 'negativo';
+  if(qty <= minQty) return 'baixo';
+  return 'normal';
+}
+function statusLabel(s){ return s==='negativo' ? 'Negativo' : s==='baixo' ? 'Estoque baixo' : 'Normal'; }
+function statusBadgeStyle(s){
+  if(s==='negativo') return 'background:oklch(94% 0.06 25);color:oklch(45% 0.19 25);';
+  if(s==='baixo') return 'background:oklch(94% 0.06 55);color:oklch(48% 0.15 55);';
+  return 'background:oklch(94% 0.045 148);color:oklch(38% 0.1 148);';
+}
+function initialsOf(name){
+  return (name||'').split(' ').filter(Boolean).slice(0,2).map(p=>p[0].toUpperCase()).join('');
+}
+
+class Component extends DCLogic {
+  state = {
+    screen: this.props.initialScreen === 'dashboard' ? 'dashboard' : 'login',
+    user: this.props.initialScreen === 'dashboard' ? {name:'Julio Casagrande',email:'julio@primehorse.com',role:'admin'} : null,
+    categories: CATS.slice(), locations: LOCS.slice(), units: UNITS.slice(),
+    items: ITEMS.map(i=>({...i})), movements: MOVEMENTS.map(m=>({...m})), users: USERS.map(u=>({...u})),
+    notificationsLog: NOTIFS.slice(),
+    pushEnabled: false, searchQuery: '',
+    newCategoryName:'', newLocationName:'', newUnitName:'',
+    wizard: {type:null, step:0, data:{}},
+    modal: {type:null, payload:null}, modalForm:null,
+    toast: null,
+    openDropdown: null,
+  };
+
+  toggleDropdown = (key) => this.setState(s=>({openDropdown: s.openDropdown===key ? null : key}));
+  closeAllDropdowns = () => this.setState({openDropdown:null});
+  buildDropdown(key, options, selectedValue, onSelect, placeholder){
+    const isOpen = this.state.openDropdown === key;
+    const selectedOpt = options.find(o=>o.value===selectedValue);
+    return {
+      isOpen, selectedLabel: selectedOpt ? selectedOpt.label : (placeholder || 'Selecione...'),
+      toggle: () => this.toggleDropdown(key),
+      options: options.map(o=>({
+        label: o.label, value: o.value,
+        onClick: () => { onSelect(o.value); this.closeAllDropdowns(); },
+        rowStyle: 'padding:10px 14px;font-size:13.5px;cursor:pointer;' + (o.value===selectedValue ? 'background:oklch(94% 0.03 45);color:oklch(34% 0.09 43);font-weight:600;' : 'color:oklch(30% 0.02 50);'),
+      })),
+    };
+  }
+  setWizardField = (field) => (val) => this.setState(s=>({wizard:{...s.wizard, data:{...s.wizard.data, [field]: val}}}));
+
+  showToast(msg){
+    this.setState({toast:msg});
+    clearTimeout(this._toastTimer);
+    this._toastTimer = setTimeout(()=>this.setState({toast:null}), 2600);
+  }
+
+  loginAsAdmin = () => this.setState({screen:'dashboard', user:{name:'Julio Casagrande',email:'julio@primehorse.com',role:'admin'}});
+  loginAsNewUser = () => {
+    this.setState({screen:'dashboard', user:{name:'Pedro Lima',email:'pedro.lima@primehorse.com',role:'operador'},
+      wizard:{type:'firstAccess', step:0, data:{password:'',confirmPassword:''}}});
+  };
+  logout = () => this.setState({screen:'login', user:null, wizard:{type:null,step:0,data:{}}, modal:{type:null,payload:null}});
+  onRoleSwitch = (e) => {
+    const role = e.target.value;
+    this.setState(s=>{
+      const nextScreen = (role!=='admin' && (s.screen==='users'||s.screen==='settings')) ? 'dashboard' : s.screen;
+      return {user:{...s.user, role}, screen: nextScreen};
+    });
+  };
+  go = (screen) => this.setState({screen, wizard:{type:null,step:0,data:{}}, modal:{type:null,payload:null}});
+
+  setSearchQuery = (e) => this.setState({searchQuery: e.target.value});
+  togglePush = () => {
+    const next = !this.state.pushEnabled;
+    this.setState({pushEnabled: next});
+    this.showToast(next ? 'Notificações push ativadas.' : 'Notificações push desativadas.');
+  };
+
+  openNewItemWizard = () => this.setState({wizard:{type:'newItem', step:0, data:{name:'',categoryId:'',locationId:'',unit:'',customUnit:'',qty:'',minQty:'',expiry:'',supplier:'',cost:''}}});
+  openNewMovementWizard = () => this.setState({wizard:{type:'newMovement', step:0, data:{itemId:'',type:'saida',qty:'',reason:''}}});
+  openNewUserWizard = () => this.setState({wizard:{type:'newUser', step:0, data:{name:'',email:'',role:'',tempPassword:''}}});
+  closeWizard = () => this.setState({wizard:{type:null,step:0,data:{}}});
+
+  wfSet = (field) => (e) => this.setState(s=>({wizard:{...s.wizard, data:{...s.wizard.data, [field]: e.target.value}}}));
+  wfName=this.wfSet('name'); wfCategoryId=this.wfSet('categoryId'); wfLocationId=this.wfSet('locationId');
+  wfUnit=this.wfSet('unit'); wfCustomUnit=this.wfSet('customUnit'); wfQty=this.wfSet('qty'); wfMinQty=this.wfSet('minQty');
+  wfExpiry=this.wfSet('expiry'); wfSupplier=this.wfSet('supplier'); wfCost=this.wfSet('cost');
+  wfMoveItemId=this.wfSet('itemId'); wfMoveQty=this.wfSet('qty'); wfMoveReason=this.wfSet('reason');
+  wfMoveTypeEntrada = () => this.setState(s=>({wizard:{...s.wizard, data:{...s.wizard.data, type:'entrada'}}}));
+  wfMoveTypeSaida = () => this.setState(s=>({wizard:{...s.wizard, data:{...s.wizard.data, type:'saida'}}}));
+  wfUserName=this.wfSet('name'); wfUserEmail=this.wfSet('email');
+  wfRoleAdmin = () => this.setState(s=>({wizard:{...s.wizard, data:{...s.wizard.data, role:'admin'}}}));
+  wfRoleOperador = () => this.setState(s=>({wizard:{...s.wizard, data:{...s.wizard.data, role:'operador'}}}));
+  wfRoleFinanceiro = () => this.setState(s=>({wizard:{...s.wizard, data:{...s.wizard.data, role:'financeiro'}}}));
+  wfFaPassword=this.wfSet('password'); wfFaConfirm=this.wfSet('confirmPassword');
+
+  wizardCanProceed(){
+    const {type, step, data} = this.state.wizard;
+    if(type==='newItem'){
+      if(step===0) return !!(data.name && data.categoryId && data.locationId);
+      if(step===1) return !!((data.unit && data.unit!=='__custom' || (data.unit==='__custom' && data.customUnit)) && data.qty!=='' && data.minQty!=='');
+      return true;
+    }
+    if(type==='newMovement'){
+      if(step===0) return !!(data.itemId && data.type);
+      if(step===1) return !!(data.qty && Number(data.qty)>0 && data.reason && data.reason.trim());
+      return true;
+    }
+    if(type==='newUser'){
+      if(step===0) return !!(data.name && data.email && data.email.includes('@'));
+      if(step===1) return !!data.role;
+      return true;
+    }
+    if(type==='firstAccess'){
+      if(step===0) return !!(data.password && data.password.length>=6 && data.password===data.confirmPassword);
+      return true;
+    }
+    return true;
+  }
+
+  nextStep = () => {
+    const {type, step} = this.state.wizard;
+    const meta = WIZARD_META[type];
+    if(step >= meta.steps.length - 1){
+      this.finalizeWizard();
+      return;
+    }
+    this.setState(s=>{
+      let data = {...s.wizard.data};
+      if(type==='newUser' && step===1 && !data.tempPassword) data.tempPassword = genPass();
+      return {wizard:{...s.wizard, step:s.wizard.step+1, data}};
+    });
+  };
+  backStep = () => this.setState(s=>({wizard:{...s.wizard, step:Math.max(0,s.wizard.step-1)}}));
+
+  finalizeWizard = () => {
+    const {type, data} = this.state.wizard;
+    if(type==='newItem'){
+      const unit = data.unit==='__custom' ? data.customUnit : data.unit;
+      const item = {id:'it'+Date.now(), name:data.name, categoryId:data.categoryId, locationId:data.locationId, unit,
+        qty:Number(data.qty)||0, minQty:Number(data.minQty)||0, expiry:data.expiry||'', supplier:data.supplier||'', cost:data.cost?Number(data.cost):''};
+      this.setState(s=>({items:[item,...s.items]}));
+      this.closeWizard(); this.showToast('Item criado com sucesso.');
+      return;
+    }
+    if(type==='newMovement'){
+      this.setState(s=>{
+        const item = s.items.find(i=>i.id===data.itemId);
+        if(!item) return {};
+        const qty = Number(data.qty)||0;
+        const resulting = data.type==='entrada' ? item.qty+qty : item.qty-qty;
+        const items = s.items.map(i=>i.id===item.id ? {...i, qty:resulting} : i);
+        const movement = {id:'m'+Date.now(), itemId:item.id, type:data.type, qty, resultingQty:resulting, reason:data.reason, userName:s.user.name,
+          date:new Date().toLocaleString('pt-BR')};
+        let notificationsLog = s.notificationsLog;
+        if(resulting < 0){
+          notificationsLog = [{id:'n'+Date.now(), message:`${item.name} está com saldo negativo: ${resulting} ${item.unit}.`, date:movement.date}, ...notificationsLog];
+        } else if(resulting <= item.minQty){
+          notificationsLog = [{id:'n'+Date.now(), message:`${item.name} está com estoque baixo: ${resulting} ${item.unit} (mínimo ${item.minQty}).`, date:movement.date}, ...notificationsLog];
+        }
+        return {items, movements:[movement, ...s.movements], notificationsLog};
+      });
+      this.closeWizard(); this.showToast('Movimentação registrada.');
+      return;
+    }
+    if(type==='newUser'){
+      const user = {id:'us'+Date.now(), name:data.name, email:data.email, role:data.role, status:'ativo'};
+      this.setState(s=>({users:[...s.users, user]}));
+      this.closeWizard(); this.showToast('Usuário criado com sucesso.');
+      return;
+    }
+    if(type==='firstAccess'){
+      if(this.state.wizard.step===0){
+        this.setState(s=>({wizard:{...s.wizard, step:1}}));
+      } else {
+        this.closeWizard(); this.setState({screen:'dashboard'});
+      }
+    }
+  };
+
+  openEditItem = (item) => this.setState({modal:{type:'editItem', payload:{id:item.id}}, modalForm:{...item}});
+  mfSet = (field) => (e) => this.setState(s=>({modalForm:{...s.modalForm, [field]: e.target.value}}));
+  mfName=this.mfSet('name'); mfQty=this.mfSet('qty'); mfMinQty=this.mfSet('minQty'); mfSupplier=this.mfSet('supplier');
+  mfSettingName=this.mfSet('name');
+  closeModal = () => this.setState({modal:{type:null,payload:null}, modalForm:null});
+  saveEditItem = () => {
+    const {id} = this.state.modal.payload;
+    const {name, qty, minQty, supplier} = this.state.modalForm;
+    this.setState(s=>({items:s.items.map(i=>i.id===id ? {...i, name, qty:Number(qty)||0, minQty:Number(minQty)||0, supplier} : i)}));
+    this.closeModal(); this.showToast('Item atualizado.');
+  };
+  openEditSetting = (kind, entity) => this.setState({modal:{type:'editSetting', payload:{kind, id:entity.id}}, modalForm:{name:entity.name}});
+  saveEditSetting = () => {
+    const {kind, id} = this.state.modal.payload;
+    const name = this.state.modalForm.name;
+    const listKey = kind==='category' ? 'categories' : kind==='location' ? 'locations' : 'units';
+    this.setState(s=>({[listKey]: s[listKey].map(x=>x.id===id ? {...x, name} : x)}));
+    this.closeModal(); this.showToast('Alterações salvas.');
+  };
+  openConfirm = (payload) => this.setState({modal:{type:'confirm', payload}});
+  confirmModalAction = () => { const fn = this.state.modal.payload.onConfirm; this.closeModal(); if(fn) fn(); };
+
+  openDeleteItem = (item) => this.openConfirm({title:'Excluir item', message:`Tem certeza que deseja excluir "${item.name}"? Esta ação não pode ser desfeita.`, confirmLabel:'Excluir', danger:true,
+    onConfirm:()=>{ this.setState(s=>({items:s.items.filter(i=>i.id!==item.id)})); this.showToast('Item excluído.'); }});
+  openDeleteSetting = (kind, entity) => {
+    const listKey = kind==='category' ? 'categories' : kind==='location' ? 'locations' : 'units';
+    this.openConfirm({title:'Excluir', message:`Tem certeza que deseja excluir "${entity.name}"?`, confirmLabel:'Excluir', danger:true,
+      onConfirm:()=>{ this.setState(s=>({[listKey]:s[listKey].filter(x=>x.id!==entity.id)})); this.showToast('Item excluído.'); }});
+  };
+  openResetPassword = (user) => this.openConfirm({title:'Redefinir senha', message:`Uma nova senha temporária será gerada para ${user.name}. O usuário deverá trocá-la no próximo acesso.`, confirmLabel:'Redefinir', danger:false,
+    onConfirm:()=>this.showToast(`Senha de ${user.name} redefinida.`)});
+
+  updateUserRole = (id) => (e) => this.setState(s=>({users:s.users.map(u=>u.id===id ? {...u, role:e.target.value} : u)}));
+  toggleUserStatus = (id) => () => this.setState(s=>({users:s.users.map(u=>u.id===id ? {...u, status: u.status==='ativo'?'inativo':'ativo'} : u)}));
+
+  setNewCategoryName=(e)=>this.setState({newCategoryName:e.target.value});
+  setNewLocationName=(e)=>this.setState({newLocationName:e.target.value});
+  setNewUnitName=(e)=>this.setState({newUnitName:e.target.value});
+  addCategory = () => { const n=this.state.newCategoryName.trim(); if(!n) return; this.setState(s=>({categories:[...s.categories,{id:'c'+Date.now(),name:n}], newCategoryName:''})); };
+  addLocation = () => { const n=this.state.newLocationName.trim(); if(!n) return; this.setState(s=>({locations:[...s.locations,{id:'l'+Date.now(),name:n}], newLocationName:''})); };
+  addUnit = () => { const n=this.state.newUnitName.trim(); if(!n) return; this.setState(s=>({units:[...s.units,{id:'u'+Date.now(),name:n}], newUnitName:''})); };
+
+  renderVals() {
+    const s = this.state;
+    const isLogin = s.screen === 'login' || !s.user;
+    const user = s.user || {name:'',email:'',role:'admin'};
+    const isAdmin = user.role === 'admin';
+    const isOperador = user.role === 'operador';
+    const isFinanceiro = user.role === 'financeiro';
+    const canRegisterMovement = isAdmin || isOperador;
+    const showRoleSwitcher = this.props.showRoleSwitcher !== false;
+
+    const navItems = NAV_DEF.map(n => {
+      const visible = !n.adminOnly || isAdmin;
+      const active = s.screen === n.key;
+      return {
+        ...n, visible, active,
+        fontWeight: active ? 600 : 500,
+        onClick: () => this.go(n.key),
+        isDashboard: n.kind==='dashboard', isItems: n.kind==='items', isMovements: n.kind==='movements',
+        isNotifications: n.kind==='notifications', isUsers: n.kind==='users', isSettings: n.kind==='settings',
+        rowStyle: `display:flex;align-items:center;gap:10px;padding:10px 12px;border-radius:8px;cursor:pointer;transition:background .12s ease,color .12s ease;` +
+          (active ? 'background:linear-gradient(135deg, oklch(52% 0.11 45), oklch(38% 0.1 40));color:white;box-shadow:0 4px 12px -4px oklch(40% 0.09 43 / 0.5);' : 'color:oklch(70% 0.025 50);'),
+        rowHoverStyle: active ? '' : 'background:oklch(28% 0.04 45 / 0.5);color:oklch(90% 0.02 55);',
+        mobileStyle: `display:flex;flex-direction:column;align-items:center;justify-content:center;width:46px;height:46px;border-radius:50%;cursor:pointer;flex-shrink:0;` +
+          (active ? 'background:oklch(40% 0.09 43);color:white;' : 'color:oklch(50% 0.03 45);'),
+      };
+    });
+
+    const catName = (id) => (s.categories.find(c=>c.id===id) || {}).name || '—';
+    const locName = (id) => (s.locations.find(l=>l.id===id) || {}).name || '—';
+
+    const itemsEnriched = s.items.map(it => {
+      const st = statusOf(it.qty, it.minQty);
+      return {...it, categoryName: catName(it.categoryId), locationName: locName(it.locationId),
+        statusLabel: statusLabel(st), statusBadgeStyle: statusBadgeStyle(st),
+        onEdit: () => this.openEditItem(it), onDelete: () => this.openDeleteItem(it)};
+    });
+    const itemsFiltered = itemsEnriched.filter(it => it.name.toLowerCase().includes((s.searchQuery||'').toLowerCase()));
+
+    const lowStockItemsList = itemsEnriched.filter(it => it.statusLabel !== 'Normal').slice(0,5);
+    const stats = {
+      itemCount: s.items.length,
+      activeUserCount: s.users.filter(u=>u.status==='ativo').length,
+      lowStockCount: itemsEnriched.filter(it=>statusOf(it.qty,it.minQty)==='baixo').length,
+      negativeCount: itemsEnriched.filter(it=>it.qty<0).length,
+    };
+
+    const movTypeBadge = (type) => type==='entrada' ? 'background:oklch(94% 0.045 148);color:oklch(38% 0.1 148);' : 'background:oklch(94% 0.03 45);color:oklch(34% 0.09 43);';
+    const movementsEnriched = s.movements.map(mv => {
+      const item = s.items.find(i=>i.id===mv.itemId) || {name:'—'};
+      return {...mv, itemName: item.name, typeLabel: mv.type==='entrada' ? 'Entrada' : 'Saída', typeBadgeStyle: movTypeBadge(mv.type),
+        balanceStyle: mv.resultingQty<0 ? 'color:oklch(55% 0.19 25);font-weight:600;' : ''};
+    });
+    const recentMovements = movementsEnriched.slice(0,5);
+
+    const chartSet = movementsEnriched.slice(0,6).slice().reverse();
+    const maxMovQty = Math.max(1, ...chartSet.map(mv=>mv.qty));
+    const movementChart = chartSet.map(mv => {
+      const pct = Math.max(10, Math.round((mv.qty / maxMovQty) * 100));
+      const color = mv.type==='entrada' ? 'oklch(55% 0.13 148)' : 'oklch(40% 0.09 43)';
+      const short = mv.itemName.length > 9 ? mv.itemName.slice(0,8)+'…' : mv.itemName;
+      return {qty: mv.qty, label: short, barStyle: `height:${pct}%;background:${color};`};
+    });
+
+    const totalItems = s.items.length || 1;
+    const categoryDistribution = s.categories.map((c, idx) => {
+      const count = s.items.filter(i=>i.categoryId===c.id).length;
+      const pct = Math.round((count/totalItems)*100);
+      const alpha = [1, 0.75, 0.55, 0.4][idx % 4];
+      return {...c, count, barStyle: `width:${pct}%;background:oklch(40% 0.09 43 / ${alpha});`};
+    });
+
+    const usersEnriched = s.users.map(u => ({
+      ...u, initials: initialsOf(u.name),
+      statusLabel: u.status==='ativo' ? 'Ativo' : 'Inativo',
+      statusBadgeStyle: u.status==='ativo' ? 'background:oklch(94% 0.045 148);color:oklch(38% 0.1 148);' : 'background:oklch(93% 0.02 55);color:oklch(45% 0.03 45);',
+      toggleStatusLabel: u.status==='ativo' ? 'Inativar' : 'Ativar',
+      onRoleChange: this.updateUserRole(u.id),
+      onToggleStatus: this.toggleUserStatus(u.id),
+      onResetPassword: () => this.openResetPassword(u),
+      roleDD: this.buildDropdown('userRole-'+u.id, [{value:'admin',label:'Administrador'},{value:'operador',label:'Operador de campo'},{value:'financeiro',label:'Financeiro'}], u.role, (val)=>this.setState(st=>({users:st.users.map(x=>x.id===u.id?{...x,role:val}:x)}))),
+    }));
+
+    const categories = s.categories.map(c => ({...c, onEdit:()=>this.openEditSetting('category',c), onDelete:()=>this.openDeleteSetting('category',c)}));
+    const locations = s.locations.map(l => ({...l, onEdit:()=>this.openEditSetting('location',l), onDelete:()=>this.openDeleteSetting('location',l)}));
+    const units = s.units.map(u => ({...u, onEdit:()=>this.openEditSetting('unit',u), onDelete:()=>this.openDeleteSetting('unit',u)}));
+
+    const pushEnabled = s.pushEnabled;
+    const pushButtonStyle = 'display:flex;align-items:center;gap:8px;padding:9px 15px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;transition:background .12s ease;' +
+      (pushEnabled ? 'background:oklch(94% 0.045 148);color:oklch(38% 0.1 148);border-color:oklch(80% 0.05 148);' : 'background:oklch(100% 0 0);color:oklch(40% 0.02 55);');
+    const pushButtonLabel = pushEnabled ? 'Notificações ativadas' : 'Ativar notificações push';
+
+    const wizard = s.wizard;
+    const meta = WIZARD_META[wizard.type] || {title:'',steps:[],primaryLabels:[]};
+    const wizardTitle = meta.title;
+    const wizardStepperItems = meta.steps.map((label,idx) => ({
+      label, number: idx+1, isLast: idx===meta.steps.length-1,
+      done: idx < wizard.step, active: idx === wizard.step,
+      labelColor: idx <= wizard.step ? 'oklch(40% 0.09 43)' : 'oklch(68% 0.01 60)',
+      dotStyle: 'width:26px;height:26px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11.5px;font-weight:700;flex-shrink:0;' +
+        (idx < wizard.step ? 'background:oklch(40% 0.09 43);color:white;' : idx===wizard.step ? 'background:oklch(94% 0.03 45);color:oklch(40% 0.09 43);border:2px solid oklch(40% 0.09 43);' : 'background:oklch(94% 0.008 75);color:oklch(65% 0.01 60);'),
+      lineStyle: 'flex:1;height:2px;margin:0 4px;' + (idx < wizard.step ? 'background:oklch(40% 0.09 43);' : 'background:oklch(90% 0.012 70);'),
+    }));
+    const niStep0 = wizard.type==='newItem' && wizard.step===0;
+    const niStep1 = wizard.type==='newItem' && wizard.step===1;
+    const niStep2 = wizard.type==='newItem' && wizard.step===2;
+    const niStep3 = wizard.type==='newItem' && wizard.step===3;
+    const nmStep0 = wizard.type==='newMovement' && wizard.step===0;
+    const nmStep1 = wizard.type==='newMovement' && wizard.step===1;
+    const nmStep2 = wizard.type==='newMovement' && wizard.step===2;
+    const nuStep0 = wizard.type==='newUser' && wizard.step===0;
+    const nuStep1 = wizard.type==='newUser' && wizard.step===1;
+    const nuStep2 = wizard.type==='newUser' && wizard.step===2;
+    const faStep0 = wizard.type==='firstAccess' && wizard.step===0;
+    const faStep1 = wizard.type==='firstAccess' && wizard.step===1;
+
+    const niReviewCategoryName = catName(wizard.data.categoryId);
+    const niReviewLocationName = locName(wizard.data.locationId);
+    const niReviewUnit = wizard.data.unit==='__custom' ? wizard.data.customUnit : wizard.data.unit;
+
+    const moveSelectedItem = s.items.find(i=>i.id===wizard.data.itemId) || null;
+    const moveTypeBtnBase = 'flex:1;text-align:center;padding:12px;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer;border:1.5px solid oklch(88% 0.012 70);';
+    const moveTypeEntradaStyle = moveTypeBtnBase + (wizard.data.type==='entrada' ? 'background:oklch(94% 0.045 148);color:oklch(38% 0.1 148);border-color:oklch(70% 0.09 148);' : 'background:oklch(100% 0 0);color:oklch(45% 0.02 55);');
+    const moveTypeSaidaStyle = moveTypeBtnBase + (wizard.data.type==='saida' ? 'background:oklch(94% 0.03 45);color:oklch(34% 0.09 43);border-color:oklch(50% 0.09 43);' : 'background:oklch(100% 0 0);color:oklch(45% 0.02 55);');
+    let moveNewBalance = 0, moveWarning = false, moveWarningText = '', moveWarningStyle = '';
+    if(moveSelectedItem){
+      const qty = Number(wizard.data.qty)||0;
+      moveNewBalance = wizard.data.type==='entrada' ? moveSelectedItem.qty+qty : moveSelectedItem.qty-qty;
+      if(moveNewBalance < 0){ moveWarning=true; moveWarningText = 'Atenção: esta saída deixará o saldo negativo. O sistema registrará normalmente, mas investigue um possível erro de lançamento anterior.'; moveWarningStyle='background:oklch(94% 0.06 25);color:oklch(45% 0.19 25);padding:12px 14px;border-radius:8px;font-size:12.5px;line-height:1.5;'; }
+      else if(moveNewBalance <= moveSelectedItem.minQty){ moveWarning=true; moveWarningText = 'Este item ficará em estado de estoque baixo após a movimentação.'; moveWarningStyle='background:oklch(94% 0.06 55);color:oklch(48% 0.15 55);padding:12px 14px;border-radius:8px;font-size:12.5px;line-height:1.5;'; }
+    }
+    const moveReviewTypeLabel = wizard.data.type==='entrada' ? 'Entrada' : 'Saída';
+    const moveReviewTypeBadge = 'font-size:11px;font-weight:600;padding:2px 8px;border-radius:100px;' + movTypeBadge(wizard.data.type);
+
+    const roleCardStyle = (roleVal) => 'padding:14px 16px;border-radius:10px;border:1.5px solid ' + (wizard.data.role===roleVal ? 'oklch(50% 0.09 43);background:oklch(94% 0.03 45);' : 'oklch(88% 0.012 70);background:oklch(100% 0 0);') + 'cursor:pointer;margin-bottom:10px;';
+    const roleCardAdminStyle = roleCardStyle('admin');
+    const roleCardOperadorStyle = roleCardStyle('operador');
+    const roleCardFinanceiroStyle = roleCardStyle('financeiro');
+    const nuReviewRoleLabel = ROLE_LABEL[wizard.data.role] || '—';
+
+    const faPasswordMismatch = wizard.data.confirmPassword && (wizard.data.password !== wizard.data.confirmPassword || (wizard.data.password||'').length<6);
+
+    const wizardShowBack = wizard.step > 0 && !(wizard.type==='firstAccess' && wizard.step===1);
+    const wizardPrimaryLabel = meta.primaryLabels[wizard.step] || 'Avançar';
+    const wizardPrimaryDisabled = wizard.type ? !this.wizardCanProceed() : false;
+    const wizardPrimaryAction = this.nextStep;
+    const wizardPrimaryStyle = 'padding:10px 20px;border:none;border-radius:8px;font-size:13.5px;font-weight:600;cursor:pointer;' +
+      (wizardPrimaryDisabled ? 'background:oklch(90% 0.012 70);color:oklch(65% 0.01 60);cursor:not-allowed;' : 'background:oklch(40% 0.09 43);color:white;');
+
+    const ddTriggerStyle = "width:100%;padding:10px 14px;border:1px solid oklch(88% 0.012 70);border-radius:8px;font-size:13.5px;background:oklch(100% 0 0);cursor:pointer;display:flex;align-items:center;justify-content:space-between;gap:10px;color:oklch(30% 0.02 50);";
+    const ddPanelStyle = "position:absolute;top:calc(100% + 6px);left:0;right:0;background:oklch(100% 0 0);border:1px solid oklch(88% 0.012 70);border-radius:8px;box-shadow:0 10px 26px -8px oklch(20% 0.02 50 / 0.28);z-index:500;max-height:220px;overflow-y:auto;";
+
+    const roleOptions = [{value:'admin',label:'Administrador'},{value:'operador',label:'Operador de campo'},{value:'financeiro',label:'Financeiro'}];
+    const roleSwitchDD = this.buildDropdown('roleSwitch', roleOptions, user.role, (val)=>this.onRoleSwitch({target:{value:val}}));
+    const wizCategoryDD = this.buildDropdown('wizCategory', s.categories.map(c=>({value:c.id,label:c.name})), wizard.data.categoryId, this.setWizardField('categoryId'));
+    const wizLocationDD = this.buildDropdown('wizLocation', s.locations.map(l=>({value:l.id,label:l.name})), wizard.data.locationId, this.setWizardField('locationId'));
+    const wizUnitDD = this.buildDropdown('wizUnit', [...s.units.map(u=>({value:u.name,label:u.name})), {value:'__custom',label:'Outra (digitar)'}], wizard.data.unit, this.setWizardField('unit'));
+    const wizMoveItemDD = this.buildDropdown('wizMoveItem', s.items.map(i=>({value:i.id,label:i.name})), wizard.data.itemId, this.setWizardField('itemId'), 'Selecione um item...');
+
+    const confirmModalButtonStyle = 'padding:9px 16px;border:none;border-radius:8px;font-size:13px;font-weight:600;cursor:pointer;color:white;' +
+      (s.modal.payload && s.modal.payload.danger ? 'background:oklch(50% 0.17 25);' : 'background:oklch(40% 0.09 43);');
+
+    return {
+      isLogin, screen: s.screen, go: this.go, user: {...user, roleLabel: ROLE_LABEL[user.role]}, showRoleSwitcher,
+      isAdmin, isOperador, isFinanceiro, canRegisterMovement,
+      loginAsAdmin: this.loginAsAdmin, loginAsNewUser: this.loginAsNewUser, logout: this.logout, onRoleSwitch: this.onRoleSwitch,
+      navItems, stats, recentMovements, lowStockItemsList, movementChart, categoryDistribution,
+      searchQuery: s.searchQuery, setSearchQuery: this.setSearchQuery,
+      itemsFiltered, items: s.items,
+      openNewItemWizard: this.openNewItemWizard, openNewMovementWizard: this.openNewMovementWizard, openNewUserWizard: this.openNewUserWizard,
+      movementsEnriched, usersEnriched,
+      categories, locations, units,
+      newCategoryName: s.newCategoryName, newLocationName: s.newLocationName, newUnitName: s.newUnitName,
+      setNewCategoryName: this.setNewCategoryName, setNewLocationName: this.setNewLocationName, setNewUnitName: this.setNewUnitName,
+      addCategory: this.addCategory, addLocation: this.addLocation, addUnit: this.addUnit,
+      pushEnabled, pushButtonStyle, pushButtonLabel, togglePush: this.togglePush,
+      notificationsLog: s.notificationsLog,
+      wizard, wizardTitle, wizardStepperItems,
+      niStep0, niStep1, niStep2, niStep3, nmStep0, nmStep1, nmStep2, nuStep0, nuStep1, nuStep2, faStep0, faStep1,
+      niReviewCategoryName, niReviewLocationName, niReviewUnit,
+      moveSelectedItem, moveTypeEntradaStyle, moveTypeSaidaStyle, moveNewBalance, moveWarning, moveWarningText, moveWarningStyle,
+      moveReviewTypeLabel, moveReviewTypeBadge,
+      roleCardAdminStyle, roleCardOperadorStyle, roleCardFinanceiroStyle, nuReviewRoleLabel,
+      faPasswordMismatch,
+      ddTriggerStyle, ddPanelStyle, roleSwitchDD, wizCategoryDD, wizLocationDD, wizUnitDD, wizMoveItemDD, closeAllDropdowns: this.closeAllDropdowns,
+      wizardShowBack, wizardBackAction: this.backStep, wizardPrimaryLabel, wizardPrimaryDisabled, wizardPrimaryAction, wizardPrimaryStyle,
+      closeWizard: this.closeWizard,
+      wfName: this.wfName, wfCategoryId: this.wfCategoryId, wfLocationId: this.wfLocationId, wfUnit: this.wfUnit, wfCustomUnit: this.wfCustomUnit,
+      wfQty: this.wfQty, wfMinQty: this.wfMinQty, wfExpiry: this.wfExpiry, wfSupplier: this.wfSupplier, wfCost: this.wfCost,
+      wfMoveItemId: this.wfMoveItemId, wfMoveQty: this.wfMoveQty, wfMoveReason: this.wfMoveReason,
+      wfMoveTypeEntrada: this.wfMoveTypeEntrada, wfMoveTypeSaida: this.wfMoveTypeSaida,
+      wfUserName: this.wfUserName, wfUserEmail: this.wfUserEmail,
+      wfRoleAdmin: this.wfRoleAdmin, wfRoleOperador: this.wfRoleOperador, wfRoleFinanceiro: this.wfRoleFinanceiro,
+      wfFaPassword: this.wfFaPassword, wfFaConfirm: this.wfFaConfirm,
+      modal: s.modal, modalForm: s.modalForm || {},
+      mfName: this.mfName, mfQty: this.mfQty, mfMinQty: this.mfMinQty, mfSupplier: this.mfSupplier, mfSettingName: this.mfSettingName,
+      closeModal: this.closeModal, saveEditItem: this.saveEditItem, saveEditSetting: this.saveEditSetting, confirmModalAction: this.confirmModalAction,
+      confirmModalButtonStyle,
+      toast: s.toast,
+    };
+  }
+}
+
+</script>
+</body>
+</html>

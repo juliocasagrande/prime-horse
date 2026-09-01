@@ -1,26 +1,28 @@
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { api } from "../lib/api";
 import { useAuth } from "../contexts/AuthContext";
 import { StatusBadge } from "../components/StatusBadge";
+import { CustomSelect } from "../components/CustomSelect";
+import { ConfirmModal, Modal } from "../components/Modal";
+import { Wizard } from "../components/Wizard";
+import { Toast } from "../components/Toast";
+import { Icon } from "../components/Icons";
 import "./pages.css";
 
 const emptyForm = {
-  name: "",
-  categoryId: "",
-  locationId: "",
-  unit: "",
-  customUnit: "",
-  currentQuantity: "0",
-  minQuantity: "0",
-  expiryDate: "",
-  supplier: "",
-  costPrice: "",
+  name: "", categoryId: "", locationId: "", unit: "", customUnit: "",
+  currentQuantity: "0", minQuantity: "0", expiryDate: "", supplier: "", costPrice: "",
 };
+const steps = ["Identificação", "Quantidades", "Detalhes", "Revisão"];
+
+function Field({ label, children, hint }) {
+  return <div className="field"><label>{label}</label>{children}{hint && <span className="field-hint">{hint}</span>}</div>;
+}
 
 export default function Items() {
   const { profile } = useAuth();
   const isAdmin = profile?.role === "admin";
-
+  const isReadOnly = profile?.role === "financeiro";
   const [items, setItems] = useState([]);
   const [categories, setCategories] = useState([]);
   const [locations, setLocations] = useState([]);
@@ -28,26 +30,24 @@ export default function Items() {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const [search, setSearch] = useState("");
-
-  const [modalOpen, setModalOpen] = useState(false);
-  const [editingId, setEditingId] = useState(null);
+  const [wizardOpen, setWizardOpen] = useState(false);
+  const [step, setStep] = useState(0);
   const [form, setForm] = useState(emptyForm);
+  const [editingItem, setEditingItem] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
   const [saving, setSaving] = useState(false);
   const [formError, setFormError] = useState("");
+  const [toast, setToast] = useState("");
+  const closeToast = useCallback(() => setToast(""), []);
 
   async function loadAll() {
     setLoading(true);
+    setError("");
     try {
       const [itemsData, categoriesData, locationsData, unitsData] = await Promise.all([
-        api.get("/items"),
-        api.get("/categories"),
-        api.get("/locations"),
-        api.get("/units"),
+        api.get("/items"), api.get("/categories"), api.get("/locations"), api.get("/units"),
       ]);
-      setItems(itemsData);
-      setCategories(categoriesData);
-      setLocations(locationsData);
-      setUnits(unitsData);
+      setItems(itemsData); setCategories(categoriesData); setLocations(locationsData); setUnits(unitsData);
     } catch (err) {
       setError(err.message);
     } finally {
@@ -55,82 +55,56 @@ export default function Items() {
     }
   }
 
-  useEffect(() => {
-    loadAll();
-  }, []);
+  useEffect(() => { loadAll(); }, []);
 
   const filtered = useMemo(() => {
-    const term = search.trim().toLowerCase();
-    if (!term) return items;
-    return items.filter((i) => i.name.toLowerCase().includes(term));
+    const term = search.trim().toLocaleLowerCase("pt-BR");
+    return term ? items.filter((item) => item.name.toLocaleLowerCase("pt-BR").includes(term)) : items;
   }, [items, search]);
 
+  const categoryOptions = [{ value: "", label: "Sem categoria" }, ...categories.map((item) => ({ value: item.id, label: item.name }))];
+  const locationOptions = [{ value: "", label: "Sem local" }, ...locations.map((item) => ({ value: item.id, label: item.name }))];
+  const unitOptions = [...units.map((item) => ({ value: item.name, label: item.name })), { value: "__custom__", label: "Outra (digitar)" }];
+  const selectedUnit = form.unit === "__custom__" ? form.customUnit.trim() : form.unit;
+  const findName = (collection, id, fallback) => collection.find((item) => item.id === id)?.name || fallback;
+
   function openNew() {
-    setEditingId(null);
-    setForm(emptyForm);
-    setFormError("");
-    setModalOpen(true);
+    setForm(emptyForm); setFormError(""); setStep(0); setWizardOpen(true);
   }
 
   function openEdit(item) {
-    setEditingId(item.id);
-    const knownUnit = units.some((u) => u.name === item.unit);
-    setForm({
-      name: item.name,
-      categoryId: item.category_id || "",
-      locationId: item.location_id || "",
-      unit: knownUnit ? item.unit : "__custom__",
-      customUnit: knownUnit ? "" : item.unit,
-      currentQuantity: String(item.current_quantity),
-      minQuantity: String(item.min_quantity),
-      expiryDate: item.expiry_date || "",
-      supplier: item.supplier || "",
-      costPrice: item.cost_price ?? "",
+    setEditingItem({
+      id: item.id, name: item.name, currentQuantity: String(item.current_quantity),
+      minQuantity: String(item.min_quantity), supplier: item.supplier || "",
     });
     setFormError("");
-    setModalOpen(true);
   }
 
-  async function handleDelete(item) {
-    if (!confirm(`Excluir o item "${item.name}"? Esta ação não pode ser desfeita.`)) return;
-    try {
-      await api.delete(`/items/${item.id}`);
-      await loadAll();
-    } catch (err) {
-      alert(err.message);
-    }
+  function stepValid() {
+    if (step === 0) return Boolean(form.name.trim());
+    if (step === 1) return Boolean(selectedUnit) && form.currentQuantity !== "" && form.minQuantity !== "";
+    return true;
   }
 
-  async function handleSubmit(e) {
-    e.preventDefault();
-    setFormError("");
-    const unit = form.unit === "__custom__" ? form.customUnit.trim() : form.unit;
-    if (!form.name.trim() || !unit) {
-      setFormError("Nome e unidade de medida são obrigatórios.");
-      return;
-    }
-
-    const payload = {
-      name: form.name.trim(),
-      categoryId: form.categoryId || null,
-      locationId: form.locationId || null,
-      unit,
-      currentQuantity: Number(form.currentQuantity) || 0,
-      minQuantity: Number(form.minQuantity) || 0,
-      expiryDate: form.expiryDate || null,
-      supplier: form.supplier.trim() || null,
+  function payloadFromForm() {
+    return {
+      name: form.name.trim(), categoryId: form.categoryId || null, locationId: form.locationId || null,
+      unit: selectedUnit, currentQuantity: Number(form.currentQuantity) || 0, minQuantity: Number(form.minQuantity) || 0,
+      expiryDate: form.expiryDate || null, supplier: form.supplier.trim() || null,
       costPrice: form.costPrice === "" ? null : Number(form.costPrice),
     };
+  }
 
-    setSaving(true);
+  async function nextStep() {
+    if (!stepValid()) return;
+    if (step < steps.length - 1) {
+      setStep((current) => current + 1);
+      return;
+    }
+    setSaving(true); setFormError("");
     try {
-      if (editingId) {
-        await api.patch(`/items/${editingId}`, payload);
-      } else {
-        await api.post("/items", payload);
-      }
-      setModalOpen(false);
-      await loadAll();
+      await api.post("/items", payloadFromForm());
+      setWizardOpen(false); setToast("Item criado com sucesso."); await loadAll();
     } catch (err) {
       setFormError(err.message);
     } finally {
@@ -138,229 +112,130 @@ export default function Items() {
     }
   }
 
-  return (
-    <div>
-      <div className="page-header">
-        <div>
-          <h1>Itens de estoque</h1>
-          <p>Feno, insumos e medicamentos cadastrados.</p>
+  async function saveEdit(event) {
+    event.preventDefault();
+    if (!editingItem.name.trim()) return;
+    setSaving(true); setFormError("");
+    try {
+      await api.patch("/items/" + editingItem.id, {
+        name: editingItem.name.trim(), currentQuantity: Number(editingItem.currentQuantity) || 0,
+        minQuantity: Number(editingItem.minQuantity) || 0, supplier: editingItem.supplier.trim() || null,
+      });
+      setEditingItem(null); setToast("Item atualizado com sucesso."); await loadAll();
+    } catch (err) {
+      setFormError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  async function deleteItem() {
+    setSaving(true);
+    try {
+      await api.delete("/items/" + deleteTarget.id);
+      setDeleteTarget(null); setToast("Item excluído com sucesso."); await loadAll();
+    } catch (err) {
+      setError(err.message);
+    } finally {
+      setSaving(false);
+    }
+  }
+
+  function renderWizardStep() {
+    if (step === 0) return (
+      <>
+        <h3 className="wizard-section-title">Identifique o novo item</h3>
+        <Field label="Nome do item"><input className="input" autoFocus value={form.name} onChange={(event) => setForm({ ...form, name: event.target.value })} placeholder="Ex.: Ração premium" /></Field>
+        <div className="form-row">
+          <Field label="Categoria"><CustomSelect value={form.categoryId} onChange={(value) => setForm({ ...form, categoryId: value })} options={categoryOptions} /></Field>
+          <Field label="Local de armazenamento"><CustomSelect value={form.locationId} onChange={(value) => setForm({ ...form, locationId: value })} options={locationOptions} /></Field>
         </div>
-        {isAdmin && (
-          <button className="btn" onClick={openNew}>
-            + Novo item
-          </button>
-        )}
+      </>
+    );
+    if (step === 1) return (
+      <>
+        <h3 className="wizard-section-title">Defina as quantidades</h3>
+        <Field label="Unidade de medida"><CustomSelect value={form.unit} onChange={(value) => setForm({ ...form, unit: value })} options={unitOptions} placeholder="Selecione uma unidade..." /></Field>
+        {form.unit === "__custom__" && <Field label="Outra unidade"><input className="input" autoFocus value={form.customUnit} onChange={(event) => setForm({ ...form, customUnit: event.target.value })} placeholder="Ex.: fardo" /></Field>}
+        <div className="form-row">
+          <Field label="Quantidade atual"><input className="input" type="number" step="any" value={form.currentQuantity} onChange={(event) => setForm({ ...form, currentQuantity: event.target.value })} /></Field>
+          <Field label="Quantidade mínima de alerta"><input className="input" type="number" step="any" value={form.minQuantity} onChange={(event) => setForm({ ...form, minQuantity: event.target.value })} /></Field>
+        </div>
+      </>
+    );
+    if (step === 2) return (
+      <>
+        <h3 className="wizard-section-title">Complete os detalhes opcionais</h3>
+        <div className="form-row">
+          <Field label="Validade"><input className="input" type="date" value={form.expiryDate} onChange={(event) => setForm({ ...form, expiryDate: event.target.value })} /></Field>
+          <Field label="Preço de custo"><input className="input" type="number" min="0" step="0.01" value={form.costPrice} onChange={(event) => setForm({ ...form, costPrice: event.target.value })} placeholder="0,00" /></Field>
+        </div>
+        <Field label="Fornecedor"><input className="input" value={form.supplier} onChange={(event) => setForm({ ...form, supplier: event.target.value })} placeholder="Nome do fornecedor" /></Field>
+      </>
+    );
+    return (
+      <>
+        <h3 className="wizard-section-title">Revise antes de criar</h3>
+        <dl className="review-list">
+          <div className="review-row"><dt>Item</dt><dd>{form.name}</dd></div>
+          <div className="review-row"><dt>Categoria</dt><dd>{findName(categories, form.categoryId, "Sem categoria")}</dd></div>
+          <div className="review-row"><dt>Local</dt><dd>{findName(locations, form.locationId, "Sem local")}</dd></div>
+          <div className="review-row"><dt>Quantidade</dt><dd>{form.currentQuantity} {selectedUnit}</dd></div>
+          <div className="review-row"><dt>Alerta mínimo</dt><dd>{form.minQuantity} {selectedUnit}</dd></div>
+          <div className="review-row"><dt>Fornecedor</dt><dd>{form.supplier || "Não informado"}</dd></div>
+        </dl>
+        {formError && <p className="auth-error">{formError}</p>}
+      </>
+    );
+  }
+
+  return (
+    <div className="page">
+      <div className="page-header">
+        <div className="page-header-copy"><h1>Itens de estoque</h1><p>Consulte e mantenha organizados os insumos, medicamentos e materiais do haras.</p></div>
+        <div className="page-header-actions">
+          {isReadOnly && <span className="read-only-badge"><Icon name="lock" size={14} /> Modo somente leitura</span>}
+          {isAdmin && <button className="btn" onClick={openNew}><Icon name="plus" size={17} /> Novo item</button>}
+        </div>
       </div>
-
-      <div className="field" style={{ maxWidth: 320, marginBottom: "1rem" }}>
-        <input
-          className="input"
-          placeholder="Buscar por nome..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-        />
-      </div>
-
-      {error && <p className="negative-note">{error}</p>}
-
+      <div className="search-box"><Icon name="search" size={18} /><input className="input" placeholder="Buscar por nome..." value={search} onChange={(event) => setSearch(event.target.value)} /></div>
+      {error && <p className="negative-note"><Icon name="alert" size={17} />{error}</p>}
       <div className="card table-card">
-        {loading ? (
-          <p className="empty-state">Carregando itens...</p>
-        ) : filtered.length === 0 ? (
-          <p className="empty-state">Nenhum item encontrado.</p>
-        ) : (
+        {loading ? <p className="empty-state">Carregando itens...</p> : !filtered.length ? <p className="empty-state">Nenhum item encontrado.</p> : (
           <table>
-            <thead>
-              <tr>
-                <th>Nome</th>
-                <th>Categoria</th>
-                <th>Local</th>
-                <th>Quantidade</th>
-                <th>Mínimo</th>
-                <th>Validade</th>
-                <th>Status</th>
-                {isAdmin && <th></th>}
+            <thead><tr><th>Nome</th><th>Categoria</th><th>Local</th><th>Qtd.</th><th>Status</th>{isAdmin && <th>Ações</th>}</tr></thead>
+            <tbody>{filtered.map((item) => (
+              <tr key={item.id}>
+                <td className="table-primary">{item.name}</td>
+                <td>{item.category?.name || "—"}</td><td>{item.location?.name || "—"}</td>
+                <td className={Number(item.current_quantity) < 0 ? "quantity-negative" : ""}>{item.current_quantity} {item.unit}</td>
+                <td><StatusBadge status={item.status} /></td>
+                {isAdmin && <td><div className="inline-actions">
+                  <button className="icon-btn" onClick={() => openEdit(item)}><Icon name="edit" size={14} /> Editar</button>
+                  <button className="icon-btn danger" onClick={() => setDeleteTarget(item)}><Icon name="trash" size={14} /> Excluir</button>
+                </div></td>}
               </tr>
-            </thead>
-            <tbody>
-              {filtered.map((item) => (
-                <tr key={item.id}>
-                  <td>{item.name}</td>
-                  <td>{item.category?.name || "—"}</td>
-                  <td>{item.location?.name || "—"}</td>
-                  <td>
-                    {item.current_quantity} {item.unit}
-                  </td>
-                  <td>
-                    {item.min_quantity} {item.unit}
-                  </td>
-                  <td>{item.expiry_date ? new Date(item.expiry_date).toLocaleDateString("pt-BR") : "—"}</td>
-                  <td>
-                    <StatusBadge status={item.status} />
-                  </td>
-                  {isAdmin && (
-                    <td>
-                      <div className="inline-actions">
-                        <button className="icon-btn" onClick={() => openEdit(item)}>
-                          Editar
-                        </button>
-                        <button className="icon-btn" onClick={() => handleDelete(item)}>
-                          Excluir
-                        </button>
-                      </div>
-                    </td>
-                  )}
-                </tr>
-              ))}
-            </tbody>
+            ))}</tbody>
           </table>
         )}
       </div>
 
-      {modalOpen && (
-        <div className="modal-overlay" onClick={() => setModalOpen(false)}>
-          <form className="card modal-card" onClick={(e) => e.stopPropagation()} onSubmit={handleSubmit}>
-            <h2>{editingId ? "Editar item" : "Novo item"}</h2>
+      {wizardOpen && <Wizard title="Novo item de estoque" steps={steps} step={step} onClose={() => setWizardOpen(false)} onBack={() => setStep((current) => current - 1)} onNext={nextStep} nextLabel={step === 3 ? "Criar item" : "Continuar"} nextDisabled={!stepValid()} saving={saving}>{renderWizardStep()}</Wizard>}
 
-            <div className="field">
-              <label>Nome</label>
-              <input
-                className="input"
-                required
-                value={form.name}
-                onChange={(e) => setForm({ ...form, name: e.target.value })}
-              />
-            </div>
+      {editingItem && <Modal title="Editar item" onClose={() => setEditingItem(null)} actions={<><button type="button" className="btn btn-secondary" onClick={() => setEditingItem(null)}>Cancelar</button><button type="submit" form="edit-item-form" className="btn" disabled={saving || !editingItem.name.trim()}>{saving ? "Salvando..." : "Salvar alterações"}</button></>}>
+        <form id="edit-item-form" onSubmit={saveEdit}>
+          <Field label="Nome"><input className="input" value={editingItem.name} onChange={(event) => setEditingItem({ ...editingItem, name: event.target.value })} /></Field>
+          <div className="form-row">
+            <Field label="Quantidade atual"><input className="input" type="number" step="any" value={editingItem.currentQuantity} onChange={(event) => setEditingItem({ ...editingItem, currentQuantity: event.target.value })} /></Field>
+            <Field label="Quantidade mínima"><input className="input" type="number" step="any" value={editingItem.minQuantity} onChange={(event) => setEditingItem({ ...editingItem, minQuantity: event.target.value })} /></Field>
+          </div>
+          <Field label="Fornecedor"><input className="input" value={editingItem.supplier} onChange={(event) => setEditingItem({ ...editingItem, supplier: event.target.value })} /></Field>
+          {formError && <p className="auth-error">{formError}</p>}
+        </form>
+      </Modal>}
 
-            <div className="form-row">
-              <div className="field">
-                <label>Categoria</label>
-                <select
-                  className="input"
-                  value={form.categoryId}
-                  onChange={(e) => setForm({ ...form, categoryId: e.target.value })}
-                >
-                  <option value="">Sem categoria</option>
-                  {categories.map((c) => (
-                    <option key={c.id} value={c.id}>
-                      {c.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className="field">
-                <label>Local de armazenamento</label>
-                <select
-                  className="input"
-                  value={form.locationId}
-                  onChange={(e) => setForm({ ...form, locationId: e.target.value })}
-                >
-                  <option value="">Sem local</option>
-                  {locations.map((l) => (
-                    <option key={l.id} value={l.id}>
-                      {l.name}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="field">
-                <label>Unidade de medida</label>
-                <select
-                  className="input"
-                  value={form.unit}
-                  onChange={(e) => setForm({ ...form, unit: e.target.value })}
-                >
-                  <option value="">Selecione...</option>
-                  {units.map((u) => (
-                    <option key={u.id} value={u.name}>
-                      {u.name}
-                    </option>
-                  ))}
-                  <option value="__custom__">Outra (digitar)...</option>
-                </select>
-              </div>
-              {form.unit === "__custom__" && (
-                <div className="field">
-                  <label>Unidade personalizada</label>
-                  <input
-                    className="input"
-                    value={form.customUnit}
-                    onChange={(e) => setForm({ ...form, customUnit: e.target.value })}
-                  />
-                </div>
-              )}
-            </div>
-
-            <div className="form-row">
-              <div className="field">
-                <label>Quantidade atual</label>
-                <input
-                  className="input"
-                  type="number"
-                  step="any"
-                  value={form.currentQuantity}
-                  onChange={(e) => setForm({ ...form, currentQuantity: e.target.value })}
-                />
-              </div>
-              <div className="field">
-                <label>Quantidade mínima de alerta</label>
-                <input
-                  className="input"
-                  type="number"
-                  step="any"
-                  value={form.minQuantity}
-                  onChange={(e) => setForm({ ...form, minQuantity: e.target.value })}
-                />
-              </div>
-            </div>
-
-            <div className="form-row">
-              <div className="field">
-                <label>Validade (opcional)</label>
-                <input
-                  className="input"
-                  type="date"
-                  value={form.expiryDate}
-                  onChange={(e) => setForm({ ...form, expiryDate: e.target.value })}
-                />
-              </div>
-              <div className="field">
-                <label>Preço de custo (opcional)</label>
-                <input
-                  className="input"
-                  type="number"
-                  step="any"
-                  value={form.costPrice}
-                  onChange={(e) => setForm({ ...form, costPrice: e.target.value })}
-                />
-              </div>
-            </div>
-
-            <div className="field">
-              <label>Fornecedor (opcional)</label>
-              <input
-                className="input"
-                value={form.supplier}
-                onChange={(e) => setForm({ ...form, supplier: e.target.value })}
-              />
-            </div>
-
-            {formError && <p className="auth-error">{formError}</p>}
-
-            <div className="modal-actions">
-              <button type="button" className="btn btn-secondary" onClick={() => setModalOpen(false)}>
-                Cancelar
-              </button>
-              <button type="submit" className="btn" disabled={saving}>
-                {saving ? "Salvando..." : "Salvar"}
-              </button>
-            </div>
-          </form>
-        </div>
-      )}
+      {deleteTarget && <ConfirmModal title="Excluir item" message={'Tem certeza que deseja excluir "' + deleteTarget.name + '"? Esta ação não pode ser desfeita.'} confirmLabel="Excluir item" danger busy={saving} onCancel={() => setDeleteTarget(null)} onConfirm={deleteItem} />}
+      {toast && <Toast message={toast} onClose={closeToast} />}
     </div>
   );
 }

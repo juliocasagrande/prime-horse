@@ -1,104 +1,72 @@
 import { useState } from "react";
 import { api } from "../lib/api";
+import { ConfirmModal, Modal } from "./Modal";
+import { Icon } from "./Icons";
 
-// Usado para categorias, locais e unidades: mesma forma { id, name },
-// leitura já carregada pelo pai, escrita via endpoint REST /api/<resource>.
-export function ResourceManager({ title, resource, items, onChange }) {
+export function ResourceManager({ title, resource, items, onChange, onSuccess, icon = "settings" }) {
   const [newName, setNewName] = useState("");
-  const [editingId, setEditingId] = useState(null);
-  const [editingName, setEditingName] = useState("");
+  const [editTarget, setEditTarget] = useState(null);
+  const [deleteTarget, setDeleteTarget] = useState(null);
   const [error, setError] = useState("");
+  const [saving, setSaving] = useState(false);
 
-  async function handleAdd(e) {
-    e.preventDefault();
-    setError("");
+  async function add(event) {
+    event.preventDefault();
     if (!newName.trim()) return;
+    setSaving(true); setError("");
     try {
-      await api.post(`/${resource}`, { name: newName.trim() });
-      setNewName("");
-      onChange();
-    } catch (err) {
-      setError(err.message);
-    }
+      await api.post("/" + resource, { name: newName.trim() });
+      setNewName(""); onSuccess(title + ": item adicionado com sucesso."); await onChange();
+    } catch (err) { setError(err.message); }
+    finally { setSaving(false); }
   }
 
-  async function handleRename(id) {
-    if (!editingName.trim()) return;
+  async function rename(event) {
+    event.preventDefault();
+    if (!editTarget.name.trim()) return;
+    setSaving(true); setError("");
     try {
-      await api.patch(`/${resource}/${id}`, { name: editingName.trim() });
-      setEditingId(null);
-      onChange();
-    } catch (err) {
-      setError(err.message);
-    }
+      await api.patch("/" + resource + "/" + editTarget.id, { name: editTarget.name.trim() });
+      setEditTarget(null); onSuccess("Alteração salva com sucesso."); await onChange();
+    } catch (err) { setError(err.message); }
+    finally { setSaving(false); }
   }
 
-  async function handleDelete(id) {
-    if (!confirm("Remover este item da lista?")) return;
+  async function remove() {
+    setSaving(true); setError("");
     try {
-      await api.delete(`/${resource}/${id}`);
-      onChange();
-    } catch (err) {
-      setError(err.message);
-    }
+      await api.delete("/" + resource + "/" + deleteTarget.id);
+      setDeleteTarget(null); onSuccess("Item excluído com sucesso."); await onChange();
+    } catch (err) { setError(err.message); }
+    finally { setSaving(false); }
   }
 
   return (
-    <div className="card section-card">
-      <h3>{title}</h3>
-      {error && <p className="auth-error">{error}</p>}
-      <ul className="list-with-actions">
-        {items.map((item) =>
-          editingId === item.id ? (
-            <li key={item.id}>
-              <input
-                className="input"
-                value={editingName}
-                onChange={(e) => setEditingName(e.target.value)}
-                autoFocus
-              />
-              <div className="inline-actions">
-                <button className="icon-btn" onClick={() => handleRename(item.id)}>
-                  Salvar
-                </button>
-                <button className="icon-btn" onClick={() => setEditingId(null)}>
-                  Cancelar
-                </button>
-              </div>
-            </li>
-          ) : (
+    <section className="card section-card">
+      <header className="resource-heading"><span className="resource-heading-icon"><Icon name={icon} size={17} /></span><h3>{title}</h3></header>
+      <div className="resource-body">
+        {error && <p className="auth-error">{error}</p>}
+        <ul className="list-with-actions">
+          {items.map((item) => (
             <li key={item.id}>
               <span>{item.name}</span>
               <div className="inline-actions">
-                <button
-                  className="icon-btn"
-                  onClick={() => {
-                    setEditingId(item.id);
-                    setEditingName(item.name);
-                  }}
-                >
-                  Editar
-                </button>
-                <button className="icon-btn" onClick={() => handleDelete(item.id)}>
-                  Excluir
-                </button>
+                <button className="icon-btn" onClick={() => setEditTarget({ ...item })} aria-label={"Editar " + item.name}><Icon name="edit" size={14} /></button>
+                <button className="icon-btn danger" onClick={() => setDeleteTarget(item)} aria-label={"Excluir " + item.name}><Icon name="trash" size={14} /></button>
               </div>
             </li>
-          )
-        )}
-        {items.length === 0 && <li style={{ color: "var(--text-muted)" }}>Nenhum item cadastrado.</li>}
-      </ul>
-      <form style={{ display: "flex", gap: "0.5rem", marginTop: "0.8rem" }} onSubmit={handleAdd}>
-        <input
-          className="input"
-          placeholder="Adicionar novo..."
-          value={newName}
-          onChange={(e) => setNewName(e.target.value)}
-        />
-        <button className="btn" type="submit">
-          Adicionar
-        </button>
-      </form>
-    </div>
+          ))}
+          {!items.length && <li className="table-muted">Nenhum item cadastrado.</li>}
+        </ul>
+        <form className="resource-add-form" onSubmit={add}>
+          <input className="input" placeholder="Adicionar novo..." value={newName} onChange={(event) => setNewName(event.target.value)} />
+          <button className="btn" type="submit" disabled={saving || !newName.trim()}>Adicionar</button>
+        </form>
+      </div>
+      {editTarget && <Modal title={"Editar " + title.toLocaleLowerCase("pt-BR")} onClose={() => setEditTarget(null)} actions={<><button type="button" className="btn btn-secondary" onClick={() => setEditTarget(null)}>Cancelar</button><button type="submit" form={"edit-" + resource} className="btn" disabled={saving || !editTarget.name.trim()}>{saving ? "Salvando..." : "Salvar"}</button></>}>
+        <form id={"edit-" + resource} onSubmit={rename}><div className="field"><label>Nome</label><input className="input" autoFocus value={editTarget.name} onChange={(event) => setEditTarget({ ...editTarget, name: event.target.value })} /></div></form>
+      </Modal>}
+      {deleteTarget && <ConfirmModal title="Excluir item" message={'Deseja excluir "' + deleteTarget.name + '" da lista de ' + title.toLocaleLowerCase("pt-BR") + "? Esta ação não pode ser desfeita."} confirmLabel="Excluir" danger busy={saving} onCancel={() => setDeleteTarget(null)} onConfirm={remove} />}
+    </section>
   );
 }
