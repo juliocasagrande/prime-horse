@@ -18,7 +18,7 @@ export function Sidebar() {
     <aside className="sidebar">
       <div className="sidebar-brand">
         <span className="sidebar-brand-title">Prime Horse</span>
-        <span className="sidebar-brand-subtitle">Estoque</span>
+        <span className="sidebar-brand-subtitle">Gestão Empresarial</span>
       </div>
       <nav className="sidebar-nav">
         {ALL_ITEMS.filter((item) => item.roles.includes(role)).map((item) => (

@@ -23,9 +23,9 @@ export default defineConfig(({ mode }) => {
         },
         includeAssets: ["icons/apple-touch-icon.png"],
         manifest: {
-          name: "Prime Horse — Estoque",
+          name: "Prime Horse — Gestão Empresarial",
           short_name: "Prime Horse",
-          description: "Controle de estoque do haras Prime Horse",
+          description: "Sistema de gestão empresarial do haras Prime Horse",
           theme_color: "#7c4f2a",
           background_color: "#fbf6ee",
           display: "standalone",

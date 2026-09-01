@@ -1,7 +1,7 @@
-# Prime Horse — Sistema de Gestão e Controle de Estoque
+# Prime Horse — Gestão Empresarial
 
-Sistema web (PWA) para controle de estoque de feno, insumos e medicamentos da
-Prime Horse, substituindo o controle por planilha. Ver
+Sistema web (PWA) de gestão empresarial da Prime Horse — módulo de estoque de
+feno, insumos e medicamentos, substituindo o controle por planilha. Ver
 [prime-horse-estoque-spec.md](prime-horse-estoque-spec.md) para a especificação completa.
 
 ## Stack

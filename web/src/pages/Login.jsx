@@ -31,7 +31,7 @@ export default function Login() {
     <div className="auth-screen">
       <form className="card auth-card" onSubmit={handleSubmit}>
         <h1>Prime Horse</h1>
-        <p className="auth-subtitle">Controle de estoque</p>
+        <p className="auth-subtitle">Gestão Empresarial</p>
 
         <div className="field">
           <label htmlFor="email">E-mail</label>
