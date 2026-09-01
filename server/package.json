@@ -4,7 +4,7 @@
   "private": true,
   "type": "module",
   "engines": {
-    "node": ">=18"
+    "node": ">=22.9.0"
   },
   "scripts": {
     "dev": "cross-env NODE_OPTIONS=--use-system-ca node --watch src/index.js",
