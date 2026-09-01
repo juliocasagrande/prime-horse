@@ -1,0 +1,195 @@
+:root {
+  --bg: #fbf6ee;
+  --surface: #ffffff;
+  --border: #e6dcc8;
+  --sidebar-bg: #f1e4cf;
+  --sidebar-border: #d9c6a3;
+  --text: #3a2e22;
+  --text-muted: #7a6c58;
+
+  --primary: #7c4f2a;
+  --primary-hover: #6a4322;
+  --primary-contrast: #fffaf2;
+
+  --status-ok-bg: #e4f5e9;
+  --status-ok-text: #1f7a3f;
+  --status-ok-border: #a9dfba;
+
+  --status-low-bg: #fdedd9;
+  --status-low-text: #b5590a;
+  --status-low-border: #f3c98a;
+
+  --status-negative-bg: #fbe3e1;
+  --status-negative-text: #b32318;
+  --status-negative-border: #f0aca5;
+
+  --font-title: "Lora", serif;
+  --font-body: "Poppins", sans-serif;
+
+  --radius: 10px;
+  --shadow: 0 1px 2px rgba(58, 46, 34, 0.06), 0 1px 3px rgba(58, 46, 34, 0.08);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-body);
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  font-family: var(--font-title);
+  color: var(--text);
+  margin: 0 0 0.4em;
+}
+
+a {
+  color: var(--primary);
+}
+
+button,
+input,
+select,
+textarea {
+  font-family: inherit;
+  font-size: 0.95rem;
+}
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  border: none;
+  border-radius: var(--radius);
+  padding: 0.6rem 1.1rem;
+  cursor: pointer;
+  font-weight: 500;
+  background: var(--primary);
+  color: var(--primary-contrast);
+  transition: background 0.15s ease;
+}
+
+.btn:hover {
+  background: var(--primary-hover);
+}
+
+.btn:disabled {
+  opacity: 0.55;
+  cursor: not-allowed;
+}
+
+.btn-secondary {
+  background: var(--surface);
+  color: var(--primary);
+  border: 1px solid var(--border);
+}
+
+.btn-secondary:hover {
+  background: #fff6ea;
+}
+
+.btn-danger {
+  background: var(--status-negative-text);
+}
+
+.card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.input,
+select.input,
+textarea.input {
+  width: 100%;
+  padding: 0.55rem 0.75rem;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+}
+
+.input:focus,
+select.input:focus,
+textarea.input:focus {
+  outline: 2px solid var(--primary);
+  outline-offset: 1px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.3rem;
+  margin-bottom: 0.9rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  font-weight: 500;
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  padding: 0.65rem 0.8rem;
+  border-bottom: 1px solid var(--border);
+  font-size: 0.92rem;
+}
+
+th {
+  color: var(--text-muted);
+  font-weight: 600;
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.03em;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+.badge-ok {
+  background: var(--status-ok-bg);
+  color: var(--status-ok-text);
+  border-color: var(--status-ok-border);
+}
+
+.badge-low {
+  background: var(--status-low-bg);
+  color: var(--status-low-text);
+  border-color: var(--status-low-border);
+}
+
+.badge-negative {
+  background: var(--status-negative-bg);
+  color: var(--status-negative-text);
+  border-color: var(--status-negative-border);
+}

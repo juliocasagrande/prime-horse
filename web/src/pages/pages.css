@@ -1,0 +1,148 @@
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.2rem;
+  flex-wrap: wrap;
+  gap: 0.8rem;
+}
+
+.page-header p {
+  color: var(--text-muted);
+  margin: 0.2rem 0 0;
+}
+
+.table-card {
+  overflow-x: auto;
+}
+
+.grid-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.stat-card {
+  padding: 1.1rem 1.3rem;
+}
+
+.stat-card .stat-value {
+  font-family: var(--font-title);
+  font-size: 1.9rem;
+  font-weight: 700;
+  color: var(--primary);
+}
+
+.stat-card .stat-label {
+  color: var(--text-muted);
+  font-size: 0.85rem;
+}
+
+.stat-card.alert .stat-value {
+  color: var(--status-low-text);
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1.3fr 1fr;
+  gap: 1.2rem;
+}
+
+@media (max-width: 960px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+}
+
+.section-card {
+  padding: 1.2rem 1.4rem;
+  margin-bottom: 1.2rem;
+}
+
+.modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(58, 46, 34, 0.35);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+  z-index: 50;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 480px;
+  padding: 1.6rem;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.6rem;
+  margin-top: 1rem;
+}
+
+.form-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.8rem;
+}
+
+.empty-state {
+  color: var(--text-muted);
+  padding: 1.5rem;
+  text-align: center;
+}
+
+.settings-columns {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+  gap: 1.2rem;
+}
+
+.list-with-actions li {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.5rem 0;
+  border-bottom: 1px solid var(--border);
+  gap: 0.5rem;
+}
+
+.list-with-actions {
+  list-style: none;
+  padding: 0;
+  margin: 0.6rem 0 0;
+}
+
+.inline-actions {
+  display: flex;
+  gap: 0.4rem;
+}
+
+.icon-btn {
+  border: 1px solid var(--border);
+  background: var(--surface);
+  border-radius: 6px;
+  padding: 0.25rem 0.55rem;
+  cursor: pointer;
+  font-size: 0.8rem;
+}
+
+.icon-btn:hover {
+  background: #fff6ea;
+}
+
+.negative-note {
+  background: var(--status-negative-bg);
+  color: var(--status-negative-text);
+  border: 1px solid var(--status-negative-border);
+  border-radius: 8px;
+  padding: 0.6rem 0.9rem;
+  font-size: 0.85rem;
+  margin-bottom: 1rem;
+}

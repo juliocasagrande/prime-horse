@@ -1,0 +1,133 @@
+.app-shell {
+  display: flex;
+  min-height: 100vh;
+}
+
+.sidebar {
+  width: 240px;
+  flex-shrink: 0;
+  background: var(--sidebar-bg);
+  border-right: 1px solid var(--sidebar-border);
+  padding: 1.4rem 1rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-brand {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 1.8rem;
+  padding: 0 0.5rem;
+}
+
+.sidebar-brand-title {
+  font-family: var(--font-title);
+  font-weight: 700;
+  font-size: 1.3rem;
+  color: var(--primary);
+}
+
+.sidebar-brand-subtitle {
+  font-size: 0.8rem;
+  color: var(--text-muted);
+}
+
+.sidebar-nav {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.sidebar-link {
+  padding: 0.6rem 0.75rem;
+  border-radius: 8px;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 0.92rem;
+  font-weight: 500;
+}
+
+.sidebar-link:hover {
+  background: rgba(124, 79, 42, 0.08);
+}
+
+.sidebar-link.active {
+  background: var(--primary);
+  color: var(--primary-contrast);
+}
+
+.app-main {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.app-topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.9rem 1.6rem;
+  background: var(--surface);
+  border-bottom: 1px solid var(--border);
+}
+
+.app-topbar-user {
+  display: flex;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.app-topbar-name {
+  font-weight: 500;
+}
+
+.app-content {
+  padding: 1.6rem;
+  flex: 1;
+}
+
+.connection-badge {
+  padding: 0.25rem 0.7rem;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+}
+
+.connection-badge.online {
+  background: var(--status-ok-bg);
+  color: var(--status-ok-text);
+}
+
+.connection-badge.offline {
+  background: var(--status-negative-bg);
+  color: var(--status-negative-text);
+}
+
+.connection-badge.syncing {
+  background: var(--status-low-bg);
+  color: var(--status-low-text);
+}
+
+@media (max-width: 860px) {
+  .app-shell {
+    flex-direction: column;
+  }
+  .sidebar {
+    width: 100%;
+    flex-direction: row;
+    align-items: center;
+    overflow-x: auto;
+    padding: 0.8rem;
+  }
+  .sidebar-brand {
+    display: none;
+  }
+  .sidebar-nav {
+    flex-direction: row;
+  }
+  .app-topbar {
+    flex-wrap: wrap;
+    gap: 0.6rem;
+  }
+}
